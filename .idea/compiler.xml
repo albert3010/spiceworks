@@ -28,6 +28,7 @@
         <module name="dropwizard-helloworld" />
         <module name="dropwizard-jdbi" />
         <module name="dropwizard-todo" />
+        <module name="logging" />
         <module name="restful-server" />
       </profile>
     </annotationProcessing>
@@ -36,6 +37,8 @@
       <module name="dropwizard-helloworld" target="1.8" />
       <module name="dropwizard-jdbi" target="1.8" />
       <module name="dropwizard-todo" target="1.8" />
+      <module name="java-util" target="1.8" />
+      <module name="logging" target="1.8" />
       <module name="restful-server" target="1.8" />
       <module name="spiceworks" target="1.8" />
     </bytecodeTargetLevel>

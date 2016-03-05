@@ -14,6 +14,7 @@
         <module>restful-server</module>
         <module>advance-java-practice</module>
         <module>dropwizard-jdbi</module>
+        <module>java-util</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

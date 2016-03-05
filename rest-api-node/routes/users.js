@@ -1,7 +1,6 @@
 
-
 module.exports  = function(app){
-    var fk = require('../controllers/flipkart');
+    var fk = require('../controllers/flipkart');//import
 
     //app.get('/musicians', musicians.findAll);
     app.get('/musicians/fk/:name', fk.findByNameInFk);

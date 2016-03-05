@@ -6,6 +6,8 @@
     <file url="file://$PROJECT_DIR$/dropwizard-helloworld" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/dropwizard-jdbi" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/dropwizard-todo" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/java-util" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/logging" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/restful-server" charset="UTF-8" />
   </component>
 </project>
