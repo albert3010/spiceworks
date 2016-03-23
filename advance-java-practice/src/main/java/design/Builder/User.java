@@ -7,7 +7,7 @@ package design.Builder;
 public class User {
 
     //All final attributes
-
+    private final String sampleTest;
     private final String firstName; // required
     private final String lastName; // required
     private final int age; // optional
@@ -20,6 +20,8 @@ public class User {
         this.age = builder.age;
         this.phone = builder.phone;
         this.address = builder.address;
+        this.sampleTest = builder.sampleTest;
+
     }
 
     //All getter, and NO setter to provde immutability
@@ -49,6 +51,7 @@ public class User {
         private int age;
         private String phone;
         private String address;
+        private String sampleTest;
 
         public UserBuilder(String firstName, String lastName) {
             this.firstName = firstName;
@@ -60,6 +63,10 @@ public class User {
         }
         public UserBuilder phone(String phone) {
             this.phone = phone;
+            return this;
+        }
+        public UserBuilder sample(String sampleTest) {
+            this.sampleTest = sampleTest;
             return this;
         }
         public UserBuilder address(String address) {
