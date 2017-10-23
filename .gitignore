@@ -14,9 +14,11 @@ buildNumber.properties
 
 # IntelliJ project files
 .idea/workspace.xml
-.idea/
-*.iml
+.idea/*
+*/*.iml
 out
 gen
 todo-app
 rest-api-node/node_modules
+typescript-practice/node_modules/
+advance-java-practice/src/main/java/leetcode/
