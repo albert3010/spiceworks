@@ -1,7 +1,5 @@
 package tests;
 
-import com.sun.xml.internal.ws.api.ha.StickyFeature;
-
 import java.util.Comparator;
 import java.util.StringJoiner;
 

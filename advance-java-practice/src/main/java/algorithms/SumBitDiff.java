@@ -1,6 +1,5 @@
 package algorithms;
 
-import org.junit.Test;
 
 import java.util.Scanner;
 
