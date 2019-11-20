@@ -12,7 +12,7 @@
         <module>dropwizard-todo</module>
         <module>Dropwizard-Helloworld</module>
         <module>restful-server</module>
-        <module>advance-java-practice</module>
+        <module>advance-interview-practice</module>
         <module>dropwizard-jdbi</module>
     </modules>
     <properties>
