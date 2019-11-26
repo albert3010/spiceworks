@@ -18,9 +18,134 @@ public class Contests164 {
 
 //        synonyms.add(Lists.newArrayList("happy", "joy"));
 //        System.out.println(countServers(2));
-        System.out.println(suggestedProducts(products, "bags"));
+        int a[][] = {{0, 0, 1, 1, 0, 1, 0, 0, 1, 0}, {1, 1, 0, 1, 1, 0, 1, 1, 1, 0}, {1, 0, 1, 1, 1, 0, 0, 1, 1, 0}, {0, 1, 1, 0, 0, 0, 0, 1, 0, 1}, {0, 0, 0, 0, 0, 0, 1, 1, 1, 0}, {0, 1, 0, 1, 0, 1, 0, 1, 1, 1}, {1, 0, 1, 0, 1, 1, 0, 0, 0, 1}, {1, 1, 1, 1, 1, 1, 0, 0, 0, 0}, {1, 1, 1, 0, 0, 1, 0, 1, 0, 1}, {1, 1, 1, 0, 1, 1, 0, 1, 1, 0}};
+//        System.out.println(closedIsland(a));
+//        System.out.println(suggestedProducts(products, "bags"));
+        int [] nums = {3,6,5,1,8};
+        System.out.println(maxSumDivThree(nums));
 
 
+    }
+
+    public int maxSumDivThree(int[] nums) {
+        int n = nums.length;
+        int count = 0;
+        int count2 = 0;
+        int oneMin = 0;
+        int oneNextMin = 0;
+        int twoMin = 0;
+        int twoNextMin = 0;
+        int sum = 0;
+
+        for (int i = 0; i < n; i++) {
+            sum += nums[i];
+            if (nums[i] % 3 == 1) {
+
+                if (count == 0) {
+                    oneMin = nums[i];
+                    count++;
+                }else
+                if (count == 1) {
+                    oneNextMin = Math.max(oneMin, nums[i]);
+                    oneMin = Math.min(oneMin, nums[i]);
+                    count++;
+                } else
+                if (count == 2) {
+                    if (oneNextMin > nums[i]) {
+                        if (oneMin >= nums[i]) {
+                            oneNextMin = oneMin;
+                            oneMin = nums[i];
+                        } else {
+                            oneNextMin = nums[i];
+                        }
+                    }
+                }
+            }
+
+            if (nums[i] % 3 == 2) {
+                if (count2 == 0) {
+                    twoMin = nums[i];
+                    count2++;
+                }
+                else if (count2 == 1) {
+                    twoNextMin = Math.max(twoMin, nums[i]);
+                    twoMin = Math.min(twoMin, nums[i]);
+                    count2++;
+                } else
+                if (count2 == 2) {
+                    if (twoNextMin > nums[i]) {
+                        if (twoMin >= nums[i]) {
+                            twoNextMin = twoMin;
+                            twoMin = nums[i];
+                        } else {
+                            twoNextMin = nums[i];
+                        }
+                    }
+                }
+            }
+
+        }
+        int max = 0;
+        if (sum % 3 == 0) {
+            return sum;
+        }
+        if (sum % 3 == 1) {
+            if (twoNextMin != 0) {
+                max = sum - twoMin - twoNextMin;
+            }
+            return Math.max(sum - oneMin, max);
+        }
+
+        if (sum % 3 == 2) {
+
+            if (oneNextMin != 0) {
+                max = sum - oneMin - oneNextMin;
+            }
+            max = Math.max(max, sum - twoMin);
+
+        }
+        return max;
+    }
+
+    public int closedIsland(int[][] grid) {
+
+        int m = grid.length;
+        int n = grid[0].length;
+        boolean[][] v = new boolean[m][n];
+
+        int islands = 0;
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+
+                if (v[i][j] == false && grid[i][j] == 0 && dfs(grid, v, i, j, m, n)) {
+                    islands++;
+                }
+            }
+        }
+        return islands;
+    }
+
+    boolean dfs(int[][] grid, boolean[][] v, int i, int j, int m, int n) {
+
+        if (i == 0 || i == m - 1 || j == 0 || j == n - 1) {
+            if (grid[i][j] == 0) {
+                v[i][j] = true;
+                return false;
+            }
+        }
+        if (i < 0 || i >= m || j < 0 || j >= n) return false;
+
+        if (grid[i][j] == 1 || v[i][j]) return true;
+        v[i][j] = true;
+
+        int a[] = {0, 1, 0, -1, 0};
+        boolean flag = true;
+
+        for (int k = 0; k < 4; k++) {
+            flag = dfs(grid, v, i + a[k], j + a[k + 1], m, n) && flag;
+        }
+        return flag;
     }
 
     public int minTimeToVisitAllPoints(int[][] points) {
