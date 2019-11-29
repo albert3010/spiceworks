@@ -3,10 +3,7 @@ package leetcode.contests;
 import com.google.common.collect.Lists;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Contests164 {
 
@@ -21,10 +18,71 @@ public class Contests164 {
         int a[][] = {{0, 0, 1, 1, 0, 1, 0, 0, 1, 0}, {1, 1, 0, 1, 1, 0, 1, 1, 1, 0}, {1, 0, 1, 1, 1, 0, 0, 1, 1, 0}, {0, 1, 1, 0, 0, 0, 0, 1, 0, 1}, {0, 0, 0, 0, 0, 0, 1, 1, 1, 0}, {0, 1, 0, 1, 0, 1, 0, 1, 1, 1}, {1, 0, 1, 0, 1, 1, 0, 0, 0, 1}, {1, 1, 1, 1, 1, 1, 0, 0, 0, 0}, {1, 1, 1, 0, 0, 1, 0, 1, 0, 1}, {1, 1, 1, 0, 1, 1, 0, 1, 1, 0}};
 //        System.out.println(closedIsland(a));
 //        System.out.println(suggestedProducts(products, "bags"));
-        int [] nums = {3,6,5,1,8};
+        int[] nums = {3, 6, 5, 1, 8};
         System.out.println(maxSumDivThree(nums));
 
 
+    }
+
+    public static int longestVowelSubsequence(String s) {
+
+        int n = s.length();
+        HashMap<Character, Character> prvmap = new HashMap<>();
+        prvmap.put('a', null);
+        prvmap.put('e', 'a');
+        prvmap.put('i', 'e');
+        prvmap.put('o', 'i');
+        prvmap.put('u', 'o');
+
+        HashMap<Character, Integer> map = new HashMap<>();
+        map.put('a', 0);
+        map.put('e', 0);
+        map.put('i', 0);
+        map.put('o', 0);
+        map.put('u', 0);
+
+
+        for (int i = 0; i < n; i++) {
+
+            if(s.charAt(i)=='a'){
+                map.put('a', map.get('a')+1);
+            }else{
+                char x=s.charAt(i);
+                if(map.get(prvmap.get(x))>0){
+                    map.put(x,Math.max(map.get(x),map.get(prvmap.get(x)))+1);
+                }
+            }
+
+
+        }
+
+       return map.get('u');
+    }
+
+    public static int kDifference(List<Integer> arr, int k) {
+
+        int count = 0;
+        int n = arr.size();
+
+        HashSet<Integer> map = new HashSet<>();
+
+        for (int i = 0; i < n; i++) {
+
+            int j = arr.get(i);
+            map.add(j);
+        }
+        for (int i = 0; i < n; i++) {
+
+            int j = arr.get(i);
+            if (map.contains(j + k)) {
+                count++;
+            }
+            if (map.contains(j - k)) {
+                count++;
+            }
+            map.remove(j);
+        }
+        return count;
     }
 
     public int maxSumDivThree(int[] nums) {
@@ -44,13 +102,11 @@ public class Contests164 {
                 if (count == 0) {
                     oneMin = nums[i];
                     count++;
-                }else
-                if (count == 1) {
+                } else if (count == 1) {
                     oneNextMin = Math.max(oneMin, nums[i]);
                     oneMin = Math.min(oneMin, nums[i]);
                     count++;
-                } else
-                if (count == 2) {
+                } else if (count == 2) {
                     if (oneNextMin > nums[i]) {
                         if (oneMin >= nums[i]) {
                             oneNextMin = oneMin;
@@ -66,13 +122,11 @@ public class Contests164 {
                 if (count2 == 0) {
                     twoMin = nums[i];
                     count2++;
-                }
-                else if (count2 == 1) {
+                } else if (count2 == 1) {
                     twoNextMin = Math.max(twoMin, nums[i]);
                     twoMin = Math.min(twoMin, nums[i]);
                     count2++;
-                } else
-                if (count2 == 2) {
+                } else if (count2 == 2) {
                     if (twoNextMin > nums[i]) {
                         if (twoMin >= nums[i]) {
                             twoNextMin = twoMin;
