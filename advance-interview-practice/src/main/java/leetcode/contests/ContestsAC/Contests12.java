@@ -1,4 +1,4 @@
-package leetcode.contests;
+package leetcode.contests.ContestsAC;
 
 import org.junit.Test;
 

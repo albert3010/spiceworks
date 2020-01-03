@@ -1,4 +1,4 @@
-package leetcode.contests;
+package leetcode.contests.ContestsAC;
 
 public class Node {
     int data;

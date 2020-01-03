@@ -1,4 +1,4 @@
-package leetcode.contests;
+package leetcode.contests.ContestsAC;
 
 import com.google.common.collect.Lists;
 import org.junit.Test;
@@ -30,13 +30,13 @@ public class ContestB13 {
 //[[1,2,1],[2,3,7],[1,3,4],[2,1,2]]
 //        3
 //        2
-//        System.out.println(generateSentences(synonyms, "I am happy today but was sad yesterday"));
+        System.out.println(generateSentences(synonyms, "I am happy today but was sad yesterday"));
 //        System.out.println(numberOfWays(2));
         int[][] times = {{1, 2, 1}, {2, 3, 7}, {1, 3, 4}, {2, 1, 2}};
 //        int [][] times = {{2,1,1}};
 //        System.out.println(networkDelayTime(times, 3, 2));
         int A[] = {65,44,5,11};
-        System.out.println(numSquarefulPerms(A));
+//        System.out.println(numSquarefulPerms(A));
     }
 
 

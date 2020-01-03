@@ -1,4 +1,4 @@
-package leetcode.contests;
+package leetcode.contests.ContestsAC;
 
 import org.junit.Test;
 
@@ -18,44 +18,44 @@ public class Contests165 {
 //        int moves[][] = {{0,0},{2,0},{1,1},{2,1},{2,2}};
         int moves[][] = {{0, 0}, {1, 1}, {0, 1}, {0, 2}, {1, 0}, {2, 0}};
 
-        int b[][] = {{0,1,1,1},{1,1,1,1},{0,1,1,1}};
+        int b[][] = {{0, 1, 1, 1}, {1, 1, 1, 1}, {0, 1, 1, 1}};
         System.out.println(countSquares(b));
 //        System.out.println(tictactoe(moves));
 
 
     }
 
-        public int countSquares(int[][] matrix) {
+    public int countSquares(int[][] matrix) {
 
-            int n = matrix.length;
-            int m = matrix[0].length;
-            int count1 = 0;
-            int count2 = 0;
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < m; j++) {
+        int n = matrix.length;
+        int m = matrix[0].length;
+        int count1 = 0;
+        int count2 = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
 
 
-                    if (matrix[i][j] == 1) {
-                        count1++;
+                if (matrix[i][j] == 1) {
+                    count1++;
+                }
+                if (i == 0 || j == 0) {
+                    continue;
+                }
+                if (matrix[i][j] != 0) {
+                    int min = Math.min(matrix[i - 1][j - 1], Math.min(matrix[i - 1][j], matrix[i][j - 1]));
+                    if (min != 0) {
+                        matrix[i][j] = min + 1;
                     }
-                    if (i == 0 || j == 0) {
-                        continue;
+                    if (matrix[i][j] > 1) {
+                        count2 += matrix[i][j] - 1;
                     }
-                    if (matrix[i][j] != 0) {
-                        int min = Math.min(matrix[i - 1][j - 1], Math.min(matrix[i - 1][j], matrix[i][j - 1]));
-                        if(min!=0){
-                            matrix[i][j] = min+1;
-                        }
-                        if(matrix[i][j]>1){
-                            count2+= matrix[i][j]-1;
-                        }
-                    }
-
                 }
 
             }
-            return count1 + count2;
+
         }
+        return count1 + count2;
+    }
 
     public List<Integer> numOfBurgers(int tomatoSlices, int cheeseSlices) {
         List<Integer> ans = new ArrayList<>();
@@ -118,7 +118,8 @@ public class Contests165 {
         int countA;
         int countB;
         for (int i = 0; i < 3; i++) {
-            countA = 0; countB = 0;
+            countA = 0;
+            countB = 0;
             for (int j = 0; j < 3; j++) {
                 if (last == ticTac[i][j]) {
                     countA++;
@@ -129,15 +130,16 @@ public class Contests165 {
             }
             if (countA == 3 || countB == 3) return true;
         }
-        countA = 0;countB = 0;
-        for (int i = 0, j=2, k=0; i < 3; i++) {
+        countA = 0;
+        countB = 0;
+        for (int i = 0, j = 2, k = 0; i < 3; i++) {
             if (ticTac[i][i] == last) {
                 countA++;
             }
             if (ticTac[k++][j--] == last) {
                 countB++;
             }
-            if (countA == 3 || countB==3) return true;
+            if (countA == 3 || countB == 3) return true;
         }
         return false;
     }
