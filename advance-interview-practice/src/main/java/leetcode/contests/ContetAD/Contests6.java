@@ -1,8 +1,8 @@
-package leetcode.contests.ContestsAC;
+package leetcode.contests.ContetAD;
 
 import org.junit.Test;
 
-public class Contests14 {
+public class Contests6 {
 
 
     @Test
