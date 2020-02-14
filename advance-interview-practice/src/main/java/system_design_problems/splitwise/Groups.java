@@ -2,22 +2,22 @@ package system_design_problems.splitwise;
 
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 @Getter
 public class Groups {
-    private int id;
     private int groupId;
     private String name;
     private List<Integer> userIds;
-    private HashMap<Long, List<BillPaid>> userBalanceMap;
+    private HashMap<Integer, List<MoneyReceivers>> usersToPay;
 
     Groups(String name, List<Integer> userIds) {
         this.name = name;
         this.userIds = userIds;
         groupId = Constants.getGroupId();
-        userBalanceMap = new HashMap<>();
+        usersToPay = new HashMap<>();
     }
 
     public void addUserToGroup(int userId) {
@@ -26,5 +26,13 @@ public class Groups {
 
     public String getGroupName() {
         return this.name;
+    }
+
+    public void updateUsersToPay(HashMap<Integer, List<MoneyReceivers>> usersToPayObj) {
+        for(Integer userId: usersToPayObj.keySet()){
+            List<MoneyReceivers> oldReceivers = usersToPay.getOrDefault(userId, new ArrayList<>());
+            List<MoneyReceivers> newReceivers = usersToPayObj.get(userId);
+            oldReceivers.addAll(newReceivers);
+        }
     }
 }
