@@ -6,7 +6,7 @@ import org.joda.time.DateTime;
 @AllArgsConstructor
 public class MoneyReceivers {
     int receivedFrom;
-    int receivedto;
+    int receivedTo;
     double amount;
     DateTime date;
 }
