@@ -10,24 +10,84 @@ import java.util.List;
 public class Contests1 {
 
     @Test
-
-
     public void ContestsSolution() {
-
-
 //        System.out.println(canConstruct("qlkzenwmmnpkopu", 15));
 //        System.out.println(numSteps("1101"));
 //        System.out.println(longestDiverseString(0, 8, 11));
-        System.out.println(checkOverlap(1415, 807,-784,-733,623,-533, 1005));
-//        System.out.println(checkOverlap1(1415, 807,-784,-733,623,-533, 1005));
-//        1415
-//        807
-//                -784
-//                -733
-//        623
-//                -533
-//        1005
+//        System.out.println(checkOverlap(1415, 807, -784, -733, 623, -533, 1005));
+//        System.out.println(solve(5, 3));
+        String[] ss = {"eat", "tea", "tan", "ate", "nat", "bat"};
+//        System.out.println(groupAnagrams(ss));
+        int a[] = {1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1};
+        System.out.println(findMaxLength(a));
 
+    }
+
+    public int findMaxLength(int[] nums) {
+        int n = nums.length;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        map.put(0, -1);
+        int ans = 0;
+        int sum = 0;
+        for (int i = 0; i < n; i++) {
+            if (nums[i] == 0) {
+                sum--;
+            } else {
+                sum++;
+            }
+            if (map.get(sum) == null) {
+                map.put(sum, i);
+            } else {
+                int lastIndex = map.get(sum);
+                ans = Math.max(ans, i - lastIndex);
+            }
+        }
+        return ans;
+    }
+
+    public List<List<String>> groupAnagrams(String[] strs) {
+        int n = strs.length;
+        HashMap<String, List<String>> map = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            String hash = getHash(strs[i]);
+            List<String> aa = map.getOrDefault(hash, new ArrayList<>());
+            aa.add(strs[i]);
+            map.put(hash, aa);
+        }
+        return new ArrayList(map.values());
+    }
+
+    public String getHash(String ss) {
+        int l = ss.length();
+        int a[] = new int[26];
+        for (int k = 0; k < l; k++) {
+            a[ss.charAt(k) - 'a']++;
+        }
+        String hash = "";
+        for (int j = 0; j < 26; j++) {
+            String t = Integer.toString(a[j]);
+            hash += "#" + t;
+        }
+        return hash;
+    }
+
+    public String solve(int n, int k) {
+        int dp[][] = new int[n][2];
+        dp[0][0] = 1;
+        dp[0][1] = 1;
+        for (int i = 1; i < n; i++) {
+            dp[i][0] = dp[i - 1][0] + dp[i - 1][1];
+            dp[i][1] = dp[i - 1][0];
+        }
+        return helper("", k, 0, n - 1, dp);
+    }
+
+    String helper(String ans, int k, int v, int n, int dp[][]) {
+        if (k == 0 || n < 0) return ans;
+        if (v == 0 && k > dp[n][0]) {
+            return helper(ans + 'b', k - dp[n][0], 1, n - 1, dp);
+        }
+        return helper(ans + 'a', k, 0, n - 1, dp);
     }
 
     public String longestDiverseString(int a, int b, int c) {
@@ -159,7 +219,7 @@ public class Contests1 {
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 2; j++) {
                 int dd = (x_center - a[i]) * (x_center - a[i]) + (y_center - b[j]) * (y_center - b[j]);
-                if ( dd <= radius * radius) {
+                if (dd <= radius * radius) {
                     return true;
                 }
             }
