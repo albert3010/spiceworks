@@ -12,18 +12,17 @@ public class SelectionStrategy {
     public static Restaurant getDesiredRestaurant(List<Restaurant> restaurants, Order order) {
         Restaurant restaurant = null;
         if (order.getSelection().toString().equals("COST")) {
-            if (restaurants.size() > 0) {
-                restaurant = getLowestCostRestaurant(restaurants, order);
-            }
+            restaurant = getLowestCostRestaurant(restaurants, order);
         } else {
-            if (restaurants.size() > 0) {
-                restaurant = getBestRatingRestaurant(restaurants, order);
-            }
+            restaurant = getBestRatingRestaurant(restaurants);
         }
         return restaurant;
     }
 
     private static Restaurant getLowestCostRestaurant(List<Restaurant> restaurants, Order order) {
+        if (restaurants.size() == 0) {
+            return null;
+        }
         Double lowestCost = getCostFromRestro(restaurants.get(0), order);
         Restaurant finalRestaurant = restaurants.get(0);
         for (Restaurant restaurant : restaurants) {
@@ -36,7 +35,10 @@ public class SelectionStrategy {
         return finalRestaurant;
     }
 
-    private static Restaurant getBestRatingRestaurant(List<Restaurant> restaurants, Order order) {
+    private static Restaurant getBestRatingRestaurant(List<Restaurant> restaurants) {
+        if (restaurants.size() == 0) {
+            return null;
+        }
         Double bestRating = restaurants.get(0).getRating();
         Restaurant finalRestaurant = restaurants.get(0);
         for (Restaurant restaurant : restaurants) {

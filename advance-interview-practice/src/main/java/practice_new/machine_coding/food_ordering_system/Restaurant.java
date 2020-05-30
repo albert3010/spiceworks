@@ -25,7 +25,6 @@ public class Restaurant {
         }
     }
 
-
     public void updateItem(Item item) {
         menu.updateItem(item);
         itemCost.put(item.itemName, item.price);
