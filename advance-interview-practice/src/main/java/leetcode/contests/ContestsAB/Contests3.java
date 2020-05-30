@@ -2,10 +2,8 @@ package leetcode.contests.ContestsAB;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
+import java.util.stream.IntStream;
 
 
 public class Contests3 {
@@ -35,7 +33,139 @@ public class Contests3 {
         int D = 5 - 1;
 //        System.out.println(shipWithinDays(weights, D));
 //        System.out.println(maximum69Number(9669));
-        System.out.println(printVertically("TO BE OR NOT TO BE"));
+//        System.out.println(printVertically("TO BE OR NOT TO BE"));
+//cbaebabacd
+        System.out.println(findAnagrams("cbaebabacdaabcbcbacbacbcacbacbbcaaccbbccxaaaacbbca", "abc"));
+
+    }
+
+    class Node1 implements Comparable<Node1> {
+        int index;
+        String val;
+
+        Node1(int index, String val) {
+            this.index = index;
+            this.val = val;
+        }
+
+        @Override
+        public int compareTo(Node1 o) {
+            if (this.val.length() == o.val.length()) {
+                return this.index - o.index;
+            }
+            return this.val.length() - o.val.length();
+        }
+
+    }
+
+    public List<Integer> findAnagrams(String s, String p) {
+        int l = s.length();
+        int n = p.length();
+        int pp[] = new int[26];
+        int ss[] = new int[26];
+        IntStream.range(0, n).forEach(i -> pp[p.charAt(i) - 'a']++);
+        List<Integer> ans = new ArrayList<>();
+        int prevIn = 0;
+        for (int i = 0; i < l; i++) {
+            ss[s.charAt(i) - 'a']++;
+            while (compareArray(ss, pp) == -1) {
+                ss[s.charAt(prevIn) - 'a']--;
+                prevIn++;
+            }
+
+            if (compareArray(ss, pp) == 0) {
+                ans.add(prevIn);
+                ss[s.charAt(prevIn) - 'a']--;
+                prevIn++;
+            }
+
+        }
+        return ans;
+    }
+
+    public int compareArray(int a[], int[] b) {
+        int fl = 0;
+        for (int i = 0; i < 26; i++) {
+            if (a[i] > b[i]) {
+                return -1;
+            }
+            if (a[i] != b[i]) {
+                fl = 1;
+            }
+        }
+        return fl;
+    }
+
+    public List<Integer> peopleIndexes(List<List<String>> favoriteCompanies) {
+        HashMap<String, Integer> map = new HashMap<>();
+        int l = favoriteCompanies.size();
+        int in = 1;
+        List<Set<String>> tmp = new ArrayList<>();
+        for (List<String> ls : favoriteCompanies) {
+            Set<String> set = new HashSet<>();
+            for (String s : ls) {
+                if (map.get(s) == null) {
+                    map.put(s, in);
+                    set.add(Integer.toString(in));
+                    in++;
+                } else {
+                    set.add(Integer.toString(map.get(s)));
+                }
+            }
+            tmp.add(set);
+        }
+        List<Integer> ans = new ArrayList<>();
+        for (int i = 0; i < l; i++) {
+            boolean flag = true;
+            for (int j = 0; j < l; j++) {
+                if (i == j) continue;
+                Set<String> a = tmp.get(i);
+                Set<String> b = tmp.get(j);
+                int tt = 0;
+                for (String s : a) {
+                    if (b.contains(s)) {
+                        tt++;
+                    }
+                }
+                if (tt == a.size()) {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag) {
+                ans.add(i);
+            }
+        }
+        return ans;
+    }
+
+    public String arrangeWords(String text) {
+
+        String[] texts = text.split(" ");
+
+        int l = texts.length;
+
+        List<Node1> ls = new ArrayList<>();
+
+        for (int i = 0; i < l; i++) {
+            ls.add(new Node1(i, texts[i]));
+        }
+        Collections.sort(ls);
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < l; i++) {
+            String s = ls.get(i).val;
+            if (i == 0) {
+                char c = (char) (s.charAt(0) - 32);
+                result.append(c);
+                s = s.substring(1);
+
+            }
+            result.append(s);
+            if (i != l) result.append(" ");
+        }
+
+        return result.toString();
+
     }
 
     public List<String> printVertically(String s) {
