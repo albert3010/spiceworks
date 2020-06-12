@@ -17,6 +17,10 @@ buildNumber.properties
 .idea/*
 /*/.idea/*
 */*.iml
+venv/*
+*/venv/*
+/*/venv/*
+
 out
 gen
 todo-app
