@@ -18,35 +18,58 @@ public class problems9 {
 
 //        int arr[][] = { {2,7,9},{3,6,1},{7,4,2} };
 
-    private class node{
+    private class node {
 
-        node(int max,int sum){
-            this.max=max;
-            this.sum=sum;
+        node(int max, int sum) {
+            this.max = max;
+            this.sum = sum;
         }
+
         int max;
         int sum;
     }
 
     @Test
     public void numRescueBoatsTest() {
-        int people[] = {1,2};
+        int people[] = {1, 2};
         System.out.println(numRescueBoats(people, 3));
     }
 
-        @Test
+    @Test
     public void eraseOverlapIntervalsTest() {
 
+//
+//        int intervals[][] = {{1, 2}, {2, 3}, {3, 4}, {1, 3}};
+//        System.out.println(eraseOverlapIntervals(intervals));
+        System.out.println(minDistance("horse", "ros"));
+    }
 
-        int intervals[][] = { {1,2}, {2,3}, {3,4}, {1,3} };
-        System.out.println(eraseOverlapIntervals(intervals));
+    public int minDistance(String word1, String word2) {
+        int m = word1.length();
+        int n = word2.length();
+        int[][] dp = new int[m + 1][n + 1];
+        for (int i = 0; i <= m; i++) {
+            for (int j = 0; j <= n; j++) {
+                if (i == 0 || j == 0) {
+                    dp[i][j] = i + j;
+                } else {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                    if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+                        dp[i][j] = Math.min(dp[i][j], dp[i - 1][j - 1]);
+                    } else {
+                        dp[i][j] = Math.min(dp[i][j], Math.min(dp[i][j - 1], dp[i - 1][j]) + 1);
+                    }
+                }
+            }
+        }
+        return dp[m][n];
     }
 
     @Test
     public void mctFromLeafValuesTest() {
 
 
-        int arr[] = {15,13,5,3,15};
+        int arr[] = {15, 13, 5, 3, 15};
         System.out.println(mctFromLeafValuesDp(arr));
     }
 
@@ -82,74 +105,66 @@ public class problems9 {
     }
 
 
-
-
-
-
-
-
     public int mctFromLeafValues(int[] arr) {
 
         List<node> list = new ArrayList();
 
-        for(int i=0;i<arr.length;i++){
-            list.add(new node(arr[i],arr[i]));
+        for (int i = 0; i < arr.length; i++) {
+            list.add(new node(arr[i], arr[i]));
         }
-        int totalSum=0;
+        int totalSum = 0;
 
-        while(list.size()>1){
-            int minIndex=0;
-            int minSum=Integer.MAX_VALUE;
-            int max=Integer.MIN_VALUE;
-            for(int i=0;i<list.size()-1;i++){
-                int sum=list.get(i).max*list.get(i+1).max;
-                if(sum<=minSum){
-                    minSum=sum;
-                    minIndex=i;
-                    max=Math.max(list.get(i).max,list.get(i+1).max);
+        while (list.size() > 1) {
+            int minIndex = 0;
+            int minSum = Integer.MAX_VALUE;
+            int max = Integer.MIN_VALUE;
+            for (int i = 0; i < list.size() - 1; i++) {
+                int sum = list.get(i).max * list.get(i + 1).max;
+                if (sum <= minSum) {
+                    minSum = sum;
+                    minIndex = i;
+                    max = Math.max(list.get(i).max, list.get(i + 1).max);
                 }
             }
 //            System.out.println(minSum);
-            totalSum+=minSum;
+            totalSum += minSum;
             list.remove(minIndex);
             list.remove(minIndex);
-            list.add(minIndex,new node(max,minSum));
+            list.add(minIndex, new node(max, minSum));
         }
 
 
-       return totalSum;
+        return totalSum;
 
     }
 
 
+    public int eraseOverlapIntervals(int[][] intervals) {
 
-
-    public int eraseOverlapIntervals(int [][] intervals){
-
-        Arrays.sort(intervals, (int[] a,int[] b )->{
-            return a[0]-b[0];
+        Arrays.sort(intervals, (int[] a, int[] b) -> {
+            return a[0] - b[0];
         });
 
         Stack<Integer[]> stack = new Stack<Integer[]>();
-        stack.push(new Integer[]{intervals[0][0],intervals[0][1]});
+        stack.push(new Integer[]{intervals[0][0], intervals[0][1]});
         int intervalSize = intervals.length;
-        for(int i=1;i<intervalSize;i++){
+        for (int i = 1; i < intervalSize; i++) {
 
             Integer[] top = stack.peek();
-            if(top[1]<=intervals[i][0]){
-                stack.push(new Integer[]{intervals[i][0],intervals[i][1]});
+            if (top[1] <= intervals[i][0]) {
+                stack.push(new Integer[]{intervals[i][0], intervals[i][1]});
                 continue;
             }
 
-            if(top[1]>=intervals[i][1]){
+            if (top[1] >= intervals[i][1]) {
                 stack.pop();
-                stack.push(new Integer[]{intervals[i][0],intervals[i][1]});
+                stack.push(new Integer[]{intervals[i][0], intervals[i][1]});
 
             }
 
 
         }
-       return (intervalSize-stack.size());
+        return (intervalSize - stack.size());
     }
 
     public int numRescueBoats(int[] people, int limit) {
@@ -163,7 +178,7 @@ public class problems9 {
         int m = 0;
 
         while (l <= r) {
-            if(l==r){
+            if (l == r) {
                 count++;
                 break;
             }

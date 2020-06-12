@@ -12,12 +12,66 @@ public class Solution2 {
         int[][] B = {{1, 5}, {8, 12}, {15, 24}, {25, 26}};
 //        System.out.println(intervalIntersection(A, B));
 //        3
-        int[][] AA = {{1, 2}, {1, 3}, {2, 4}};
+//        int[][] AA = {{1, 2}, {1, 3}, {2, 4}};
+        int[][] AA = {{0,1},{2,1},{3,2},{0,4},{5,1},{2,6},{5,7},{3,8},{8,9}};
 //        4
 //                [[1,2],[1,3],[2,4]]
 //        System.out.println(possibleBipartition(4, AA));
-        int[][] prerequisites = {{1, 5}, {0,1}, {0,2}, {2,5}, {3,4}, {4,5}, {5,3}};
-        System.out.println(canFinish(6, prerequisites));
+        int[][] prerequisites = {{1, 5}, {0, 1}, {0, 2}, {2, 5}, {3, 4}, {4, 5}, {5, 3}};
+//        System.out.println(canFinish(6, prerequisites));
+        System.out.println(minReorder(10, AA));
+    }
+
+    public int minReorder(int n, int[][] connections) {
+        int m = connections.length;
+        Map<Integer, Integer> map = new HashMap<>();
+        Map<Integer, List<Integer>> mapx = new HashMap<>();
+        boolean [][] aa = new boolean[n][n];
+        for (int i = 0; i < m; i++) {
+            int a = connections[i][0];
+            int b = connections[i][1];
+            aa[a][b] = true;
+
+            List<Integer> la = mapx.getOrDefault(a, new ArrayList<>());
+            la.add(b);
+            mapx.put(a, la);
+            List<Integer> lb = mapx.getOrDefault(b, new ArrayList<>());
+            lb.add(a);
+            mapx.put(b, lb);
+        }
+        boolean[] v = new boolean[n + 1];
+        Queue<Integer> queue = new LinkedList<>();
+        List<Integer> ll = mapx.get(0);
+        int ans = 0;
+        v[0] = true;
+        for (Integer i : ll) {
+            queue.add(i);
+            v[i] = true;
+            if (aa[0][i]) {
+                ans++;
+            }
+        }
+
+        while (!queue.isEmpty()) {
+            Queue<Integer> queueT = new LinkedList<>();
+            int l = queue.size();
+            for (int i = 0; i < l; i++) {
+                int val = queue.poll();
+                List<Integer> ls = mapx.get(val);
+                for (Integer j : ls) {
+                    if (!v[j]) {
+                        queueT.add(j);
+                        v[j] = true;
+                        if (aa[val][j]) {
+                            ans++;
+                        }
+                    }
+                }
+
+            }
+            queue = queueT;
+        }
+        return ans;
     }
 
     public boolean canFinish(int numCourses, int[][] prerequisites) {
