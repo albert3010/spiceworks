@@ -10,4 +10,12 @@ public class User {
         this.userId = Constants.getUserId();
         this.name = name;
     }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

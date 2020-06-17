@@ -10,4 +10,16 @@ public class UserToBill {
         this.amountSpent = amountSpent;
         this.amountPaid = amountPaid;
     }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public double getAmountSpent() {
+        return amountSpent;
+    }
+
+    public double getAmountPaid() {
+        return amountPaid;
+    }
 }

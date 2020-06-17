@@ -11,7 +11,11 @@ public class UserGroup {
         this.users = users;
     }
 
-    List<User> getUsers() {
+    UserGroup() {
+        this.id = Constants.getBillId();
+    }
+
+    public List<User> getUsers() {
         return users;
     }
 
@@ -30,4 +34,9 @@ public class UserGroup {
     private boolean checkIfUserIsPresent(User user) {
         return users.stream().anyMatch(u -> u.userId == user.userId);
     }
+
+    public int getId() {
+        return id;
+    }
+
 }

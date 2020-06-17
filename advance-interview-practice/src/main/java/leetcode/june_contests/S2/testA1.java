@@ -32,7 +32,101 @@ public class testA1 {
     public void function() {
 
         int[][] a = {{7, 0}, {4, 4}, {7, 1}, {5, 0}, {6, 1}, {5, 2}};
-        System.out.println(reconstructQueue(a));
+//        System.out.println(reconstructQueue(a));
+//        int[] aa = {3, 1, 1, 4, 1, 5, 1, 4};
+        int[] aa = {3, 2, 2, 4, 3};
+        System.out.println(minSumOfLengths(aa, 3));
+    }
+
+    class Node {
+        int i;
+        int j;
+
+        Node(int i, int j) {
+            this.i = i;
+            this.j = j;
+        }
+    }
+
+    public int minSumOfLengths(int[] arr, int target) {
+
+        int l = arr.length;
+        int s = 0;
+        int e = 0;
+        int sum = 0;
+        List<Node> subPath = new ArrayList<>();
+
+        int[] left = new int[l];
+        int[] right = new int[l];
+        int min = Integer.MAX_VALUE;
+
+        for (int i = 0; i < l; i++) {
+            left[i] = Integer.MAX_VALUE;
+            right[i] = Integer.MAX_VALUE;
+        }
+
+        while (s < l) {
+            if(e>=l && sum<= target)  break;
+            if (sum == target) {
+                sum += arr[e];
+            } else if (sum < target) {
+                sum += arr[e];
+                if (sum == target) {
+                    subPath.add(new Node(s, e));
+                    min = Math.min(e - s, min);
+                    left[e] = min;
+                }
+                e++;
+            } else {
+                sum -= arr[s];
+                s++;
+                if (sum == target) {
+                    subPath.add(new Node(s, e));
+                    min = Math.min(e - s, min);
+                    left[e] = min;
+                    e++;
+                }
+                if (sum < target) e++;
+
+            }
+        }
+        s = l - 1;
+        e = l - 1;
+        sum = 0;
+        min = Integer.MAX_VALUE;
+        while (e >= 0) {
+            if (sum == target) {
+                sum += arr[s];
+            } else if (sum < target) {
+                sum += arr[s];
+                if (sum == target) {
+                    subPath.add(new Node(s, e));
+                    min = Math.min(e - s, min);
+                    right[s] = min;
+                }
+                s--;
+            } else if (sum > target) {
+                sum -= arr[e];
+                e--;
+                if (sum == target) {
+                    subPath.add(new Node(s, e));
+                    min = Math.min(e - s, min);
+                    left[s] = min;
+                    s--;
+                }
+                if (sum < target) s--;
+
+            }
+        }
+        int ans = Integer.MAX_VALUE;
+        for (int i = 1; i < l - 1; i++) {
+            if (left[i] != Integer.MAX_VALUE && right[i] != Integer.MAX_VALUE) {
+                ans = Math.min(left[i] + right[i + 1], ans);
+            }
+        }
+
+        if (ans != Integer.MAX_VALUE) return ans;
+        return -1;
     }
 
     public int[][] reconstructQueue(int[][] people) {

@@ -7,9 +7,21 @@ public class Bill {
     List<UserToBill> userToBills;
     double amount;
 
-    public Bill(int id, List<UserToBill> userToBills, double amount) {
-        this.id = id;
+    public Bill(List<UserToBill> userToBills, double amount) {
+        this.id = Constants.getBillId();
         this.userToBills = userToBills;
         this.amount = amount;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public List<UserToBill> getUserToBills() {
+        return userToBills;
     }
 }
