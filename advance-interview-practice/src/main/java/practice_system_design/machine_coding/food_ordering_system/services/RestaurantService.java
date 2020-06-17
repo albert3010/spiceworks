@@ -2,14 +2,14 @@ package practice_system_design.machine_coding.food_ordering_system.services;
 
 import practice_system_design.machine_coding.food_ordering_system.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class RestaurantService {
     Map<String, Restaurant> restaurantMap = new HashMap<>();
-    Map<String, Integer> restCapacityRemaining= new HashMap<>();
+    Map<String, Integer> restCapacityRemaining = new HashMap<>();
     Map<Integer, String> orderToRestroMap = new HashMap<>();
 
     public void onBoardRestaurant(Restaurant restaurant) {
@@ -38,27 +38,19 @@ public class RestaurantService {
     }
 
     public List<Restaurant> getEligibleRestaurants(Order order) {
-        List<Restaurant> eligibleRestaurants = new ArrayList<>();
-        for (String resId : restaurantMap.keySet()) {
-            Restaurant restaurant = restaurantMap.get(resId);
-            if (canRestaurantFulfilOrder(restaurant, order)) {
-                eligibleRestaurants.add(restaurant);
-            }
-        }
-        return eligibleRestaurants;
+        return restaurantMap.values().stream()
+                .filter(restaurant -> canRestaurantFulfilOrder(restaurant, order))
+                .collect(Collectors.toList());
     }
 
     private boolean canRestaurantFulfilOrder(Restaurant restaurant, Order order) {
         if (restCapacityRemaining.get(restaurant.getId()) == 0)
             return false;
         List<Item> items = restaurant.getMenu().getItems();
-        boolean allAvailable = true;
-        for (ItemQuantity itemQuantity : order.getItemQuantities()) {
-
-            allAvailable = allAvailable && items.stream().anyMatch(item ->
-                    item.getItemName().equals(itemQuantity.getItem()));
-        }
-        return allAvailable;
+        return order.getItemQuantities()
+                .stream()
+                .allMatch(itemQuantity -> items.stream()
+                        .anyMatch(item -> item.getItemName().equals(itemQuantity.getItem())));
     }
 
     public Restaurant getBestRestaurantForOrder(Order order) {

@@ -1,9 +1,10 @@
 package practice_system_design.machine_coding.food_ordering_system.services;
 
-import practice_system_design.machine_coding.food_ordering_system.ItemQuantity;
 import practice_system_design.machine_coding.food_ordering_system.Order;
 import practice_system_design.machine_coding.food_ordering_system.Restaurant;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -23,41 +24,19 @@ public class SelectionStrategy {
         if (restaurants.size() == 0) {
             return null;
         }
-        Double lowestCost = getCostFromRestro(restaurants.get(0), order);
-        Restaurant finalRestaurant = restaurants.get(0);
-        for (Restaurant restaurant : restaurants) {
-            Double cost = getCostFromRestro(restaurant, order);
-            if (cost < lowestCost) {
-                lowestCost = cost;
-                finalRestaurant = restaurant;
-            }
-        }
-        return finalRestaurant;
+        return Collections.min(restaurants, Comparator.comparing(restaurant -> getCostFromRestro(restaurant, order)));
     }
 
     private static Restaurant getBestRatingRestaurant(List<Restaurant> restaurants) {
         if (restaurants.size() == 0) {
             return null;
         }
-        Double bestRating = restaurants.get(0).getRating();
-        Restaurant finalRestaurant = restaurants.get(0);
-        for (Restaurant restaurant : restaurants) {
-            Double rating = restaurant.getRating();
-            if (rating > bestRating) {
-                bestRating = rating;
-                finalRestaurant = restaurant;
-            }
-        }
-        return finalRestaurant;
+        return Collections.max(restaurants, Comparator.comparing(Restaurant::getRating));
     }
 
     private static Double getCostFromRestro(Restaurant restaurant, Order order) {
         Map<String, Double> itemCost = restaurant.getItemCost();
-        Double totalCost = 0.0;
-        for (ItemQuantity itemQuantity : order.getItemQuantities()) {
-            Double cost = itemCost.get(itemQuantity.getItem());
-            totalCost += cost * itemQuantity.getQuantity();
-        }
-        return totalCost;
+        return order.getItemQuantities().stream()
+                .mapToDouble(e -> itemCost.get(e.getItem()) * e.getQuantity()).sum();
     }
 }
