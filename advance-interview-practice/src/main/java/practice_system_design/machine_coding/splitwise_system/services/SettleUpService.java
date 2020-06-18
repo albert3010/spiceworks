@@ -15,10 +15,10 @@ public class SettleUpService {
         List<UserToBill> userToBills = bill.getUserToBills();
         List<GiveAndTake> giveAndTakes = new ArrayList<>();
 
-        for (UserToBill userToBill : userToBills) {
+        userToBills.forEach(userToBill -> {
             double amountToSettle = userToBill.getAmountPaid() - userToBill.getAmountSpent();
             giveAndTakes.add(new GiveAndTake(userToBill.getUserId(), amountToSettle));
-        }
+        });
         return giveAndTakes;
     }
 

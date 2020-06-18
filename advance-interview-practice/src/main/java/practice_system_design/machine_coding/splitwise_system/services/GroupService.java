@@ -4,6 +4,7 @@ import practice_system_design.machine_coding.splitwise_system.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class GroupService {
     HashMap<Integer, User> users = new HashMap<>();
@@ -14,19 +15,17 @@ public class GroupService {
 
     public void addGroup(UserGroup userGroup) {
         groupMap.put(userGroup.getId(), userGroup);
-        for (User user : userGroup.getUsers()) {
-            users.put(user.getUserId(), user);
-        }
+        userGroup.getUsers().forEach(user ->  users.put(user.getUserId(), user));
     }
 
     public void addUserToGroup(User user, int groupId) {
         users.put(user.getUserId(), user);
         UserGroup userGroup = groupMap.get(groupId);
-        if (userGroup != null) {
-            userGroup.addUser(user);
-        } else {
+        if (userGroup == null) {
             System.out.println("Group doesn't exist");
+            return;
         }
+        userGroup.addUser(user);
     }
 
     public void addBill(Bill bill, int groupId) {
@@ -55,36 +54,26 @@ public class GroupService {
     public void showPersonView(int userId, int groupId) {
         System.out.println("--------- Person " + users.get(userId).getName() + " view ------");
         HashMap<Integer, HashMap<Integer, Double>> personToGiveMap = groupBalanceMap.get(groupId);
-        Double amount = 0.0;
+        AtomicReference<Double> amount = new AtomicReference<>(0.0);
         if (personToGiveMap != null) {
-
-            for (Integer userAId : personToGiveMap.keySet()) {
-
-                HashMap<Integer, Double> personView = personToGiveMap.get(userAId);
-                if (personView == null) {
-                    break;
-                }
-                for (Integer userToGiveId : personView.keySet()) {
-                    if (userAId == userId) {
-                        double pay = personView.get(userToGiveId);
-                        amount -= pay;
-                        System.out.println("Person " + users.get(userAId).getName() + " pay " + pay);
-                    }
-                    if (userToGiveId == userId) {
-                        double pay = personView.get(userToGiveId);
-                        amount += pay;
-                        System.out.println("Person " + users.get(userAId).getName() + " gets " + pay);
-                    }
-                }
-            }
-            if (amount > 0) {
+            personToGiveMap.forEach((userAId, personView) ->
+                    personView.forEach((userToGiveId, pay) -> {
+                        if (userAId == userId) {
+                            amount.updateAndGet(v1 -> v1 - pay);
+                            System.out.println("Person " + users.get(userAId).getName() + " pay " + pay);
+                        }
+                        if (userToGiveId == userId) {
+                            amount.updateAndGet(v1 -> v1 + pay);
+                            System.out.println("Person " + users.get(userAId).getName() + " gets " + pay);
+                        }
+                    }));
+            if (amount.get() > 0) {
                 System.out.println("Person ---" + users.get(userId).getName() + " gets total " + amount);
             }
-            if (amount < 0) {
-                System.out.println("Person ---" + users.get(userId).getName() + " pay total " + -amount);
+            if (amount.get() < 0) {
+                System.out.println("Person ---" + users.get(userId).getName() + " pay total " + amount.get() * -1);
             }
-
-            if (amount == 0) {
+            if (amount.get() == 0) {
                 System.out.println("Person ---" + users.get(userId).getName() + " pay or gets zero");
             }
         }
@@ -97,9 +86,11 @@ public class GroupService {
         UserGroup userGroup = groupMap.get(groupId);
         System.out.println("Group view G" + groupId + " \n");
         if (personToGiveMap != null) {
-            for (User user : userGroup.getUsers()) {
-                showPersonView(user.getUserId(), groupId);
-            }
+            userGroup.getUsers()
+                    .forEach(user -> showPersonView(user.getUserId(), groupId));
+        } else {
+            System.out.println("Group Doesn't exist");
         }
+
     }
 }
