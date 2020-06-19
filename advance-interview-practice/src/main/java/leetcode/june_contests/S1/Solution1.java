@@ -3,7 +3,6 @@ package leetcode.june_contests.S1;
 import org.junit.Test;
 
 import java.util.*;
-import java.util.stream.IntStream;
 
 public class Solution1 {
 
@@ -19,8 +18,8 @@ public class Solution1 {
         wordDict.add("cats");
         wordDict.add("and");
         wordDict.add("dog");
-//        System.out.println(wordBreak("catsanddog", wordDict));
-        System.out.println(validIPAddress("2001:db8:85a3:0:0:8A2E:0370:7334"));
+        System.out.println(wordBreak("catsanddog", wordDict));
+//        System.out.println(validIPAddress("2001:db8:85a3:0:0:8A2E:0370:7334"));
     }
 
     public String validIPAddress(String IP) {
@@ -98,39 +97,52 @@ public class Solution1 {
 
         int l = s.length();
         boolean[][] dp = new boolean[l][l];
+        List<String>[] ans = new ArrayList[l];
+
+        String[][] dpval = new String[l][l];
         for (int i = 0; i < l; i++) {
             for (int j = i; j < l; j++) {
-                if (wordDictSet.contains(s.substring(i, j + 1))) {
+                String ss = s.substring(i, j + 1);
+                if (wordDictSet.contains(ss)) {
                     dp[i][j] = true;
+                    dpval[i][j] = ss;
                 }
             }
         }
-        List<String> ans = new ArrayList<>();
-        String tmp = "";
-        generateSentence(s, 0, dp, tmp, ans);
-        return ans;
 
+        return generateSentence(s, 0, dp, ans, dpval);
     }
 
-    void generateSentence(String s, int start, boolean[][] dp, String tmp, List<String> ans) {
+    List<String> generateSentence(String s, int start, boolean[][] dp, List<String>[] ans, String[][] dpval) {
         int l = s.length();
-        if (start == l) {
-            ans.add(tmp);
-            return;
-        }
 
+        if (start == l) {
+            return new ArrayList<>();
+        }
+        if (ans[start] != null) {
+            return ans[start];
+        }
+        List<String> allAns = new ArrayList<>();
         for (int i = start; i < l; i++) {
             if (dp[start][i]) {
-                String ss = "";
-                if (!tmp.equals("")) {
-                    ss = tmp + " " + s.substring(start, i + 1);
-                } else {
-                    ss = s.substring(start, i + 1);
-                }
 
-                generateSentence(s, i + 1, dp, ss, ans);
+                List<String> ll = generateSentence(s, i + 1, dp, ans, dpval);
+                String ss = " " + dpval[start][i];
+                if (start == 0) {
+                    ss = dpval[start][i];
+                }
+                List<String> lla = new ArrayList<>();
+                if(ll.size()==0 && i==s.length()-1){
+                    lla.add(ss);
+                }
+                for (String item : ll) {
+                    lla.add(ss + item);
+                }
+                allAns.addAll(lla);
             }
         }
+        ans[start] = allAns;
+        return allAns;
     }
 
     public int minSumOfLengths(int[] arr, int target) {
