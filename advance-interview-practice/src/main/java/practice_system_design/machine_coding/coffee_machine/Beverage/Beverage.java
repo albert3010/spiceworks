@@ -1,10 +1,13 @@
-package practice_system_design.machine_coding.coffee_machine;
+package practice_system_design.machine_coding.coffee_machine.Beverage;
+
+import practice_system_design.machine_coding.coffee_machine.Constants;
+import practice_system_design.machine_coding.coffee_machine.Ingredient;
 
 import java.util.List;
 
 public abstract class Beverage {
-    int id;
-    String name;
+    public int id;
+    public String name;
     private List<Ingredient> ingredients;
 
     public Beverage(String name, List<Ingredient> ingredients) {
@@ -20,10 +23,5 @@ public abstract class Beverage {
     public void addNewIngredient(Ingredient ingredient) {
         ingredients.add(ingredient);
     }
-
-    public void makeBeverage() {
-//        System.out.println("---Making " + name + "---");
-//        Thread.sleep(100);
-//        System.out.println("---" + name + " Ready---");
-    }
+    public abstract void makeBeverage() throws InterruptedException;
 }

@@ -1,23 +1,17 @@
-package practice_system_design.machine_coding.splitwise_system;
+package practice_system_design.machine_coding.coffee_machine;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Constants {
 
-    private static final AtomicInteger counterUserId = new AtomicInteger(0);
-    private static final AtomicInteger groupId = new AtomicInteger(0);
-    private static final AtomicInteger billId = new AtomicInteger(0);
+    private static final AtomicInteger beverageId = new AtomicInteger(0);
+    private static final AtomicInteger ingredientId = new AtomicInteger(0);
 
-    public static Integer getUserId() {
-        return counterUserId.incrementAndGet();
+    public static Integer getBeverageId() {
+        return beverageId.incrementAndGet();
     }
 
-    public static Integer getGroupId() {
-        return groupId.incrementAndGet();
+    public static Integer getIngredientId() {
+        return ingredientId.incrementAndGet();
     }
-
-    public static Integer getBillId() {
-        return billId.incrementAndGet();
-    }
-
 }
