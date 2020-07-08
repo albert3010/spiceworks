@@ -13,9 +13,7 @@ import practice_system_design.machine_coding.coffee_machine.IngredientInventory;
 import practice_system_design.machine_coding.coffee_machine.QuantityType;
 
 import java.sql.SQLOutput;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class CoffeeMachineTests {
     static CoffeeMachine coffeeMachine;
@@ -111,10 +109,23 @@ public class CoffeeMachineTests {
         coffeeMachine.refill(4, 200); // sugar_syrup
         coffeeMachine.refill(2, 500); // hot milk
         coffeeMachine.refill(1, 500); // hot milk
-        Assert.assertEquals(coffeeMachine.getIngredient(4).getQuantity(), 200);
-        Assert.assertEquals(coffeeMachine.getIngredient(2).getQuantity(), 600);
-        Assert.assertEquals(coffeeMachine.getIngredient(1).getQuantity(), 600);
+//        Assert.assertEquals(coffeeMachine.getIngredient(4).getQuantity(), 200);
+//        Assert.assertEquals(coffeeMachine.getIngredient(2).getQuantity(), 600);
+//        Assert.assertEquals(coffeeMachine.getIngredient(1).getQuantity(), 600);
         System.out.println("-------------------");
+        Queue<Integer> q = new LinkedList<>();
+        q.add(1);
+        q.add(2);
+        q.add(3);
+//        System.out.println(q.poll());
+        Deque<Integer> deque = new LinkedList<>();
+        deque.add(1);
+        deque.add(2);
+        deque.add(3);
+
+        System.out.println(deque.poll());
+        System.out.println(deque.getLast());
+
     }
 
     @Test

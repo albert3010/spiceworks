@@ -7,10 +7,34 @@ import java.util.*;
 
 public class Contests1 {
 
+    public class Interval {
+        int start, end;
+
+        Interval(int start, int end) {
+            this.start = start;
+            this.end = end;
+        }
+    }
 
     @Test
     public void ContestsSolution() {
         System.out.println(removeInvalidParentheses("()())()"));
+    }
+
+    public int minMeetingRooms(List<Interval> intervals) {
+        int t = intervals.stream().mapToInt(e -> e.end).max().getAsInt();
+        int T[] = new int[t + 2];
+        intervals.forEach(e -> {
+            T[e.start]++;
+            T[e.end]--;
+        });
+        int max = 0;
+        int ans = 0;
+        for (int i = 0; i <= t; i++) {
+            ans = T[i] + ans;
+            max = Math.max(ans, max);
+        }
+        return max;
     }
 
     public int findSpecialInteger(int[] arr) {

@@ -4,10 +4,11 @@ import org.junit.Test;
 
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class testA1 {
     @Test
-    public void function(){
+    public void function() {
 //        S.next(100) is called and returns 1,
         StockSpanner stockSpanner = new StockSpanner();
 //        System.out.println(stockSpanner.next(100));
@@ -17,8 +18,65 @@ public class testA1 {
 //        System.out.println(stockSpanner.next(60));
 //        System.out.println(stockSpanner.next(75));
 //        System.out.println(stockSpanner.next(85));
-        System.out.println(maxVowels("aeiou", 2));
+//        System.out.println(maxVowels("aeiou", 2));
+
+            int [] a = {3,1,2,4};
+        System.out.println(sumSubarrayMins(a));
+
     }
+
+    public int sumSubarrayMins(int[] A) {
+        int n = A.length;
+
+        int [] left = new int[n];
+        int [] right = new int[n];
+
+        Stack<Integer> stack = new Stack();
+
+        for(int i = 0; i<n ;i++){
+
+            while(!stack.isEmpty() && A[stack.peek()] > A[i]){
+                stack.pop();
+            }
+            if(stack.isEmpty()){
+                left[i] = i+1;
+            }else{
+                left[i] = i - stack.peek();
+            }
+            stack.push(i);
+        }
+        stack.clear();
+        for(int i = n-1; i >= 0 ; i--){
+
+            while(!stack.isEmpty() && A[stack.peek()] >=A[i]){
+                stack.pop();
+            }
+            if(stack.isEmpty()){
+                right[i] = n-1-i+1;
+            }else{
+                right[i] = stack.peek()-i;
+            }
+            stack.push(i);
+        }
+        int ans = 0;
+        int mod = 1000000007;
+        for(int i=0; i<n ;i++){
+
+            ans+= (left[i]*(A[i]*right[i])%mod)%mod;
+        }
+        return ans;
+
+    }
+    public double average(int[] salary) {
+        int l = salary.length;
+        int min = IntStream.range(0, l).map(i -> salary[i]).min().getAsInt();
+        int max = IntStream.range(0, l).map(i -> salary[i]).max().getAsInt();
+        int sum = IntStream.range(0, l).map(i -> salary[i]).sum();
+
+        return ((sum - max - min+0.0)) / (l - 2);
+
+    }
+
     public int maxVowels(String s, int k) {
         Set<Character> set = new HashSet<>();
         HashMap<Character, Integer> count = new HashMap<>();
@@ -29,24 +87,24 @@ public class testA1 {
         set.add('u');
 
         int l = s.length();
-        int ans =0;
-        for(int i=1; i<=l ;i++){
-            char c= s.charAt(i-1);
-            if(set.contains(c)){
-                count.put(c, count.getOrDefault(c, 0)+1);
+        int ans = 0;
+        for (int i = 1; i <= l; i++) {
+            char c = s.charAt(i - 1);
+            if (set.contains(c)) {
+                count.put(c, count.getOrDefault(c, 0) + 1);
             }
 
-            if(i>=k){
-                int max =0;
-                for(Character cc: set){
+            if (i >= k) {
+                int max = 0;
+                for (Character cc : set) {
                     max += count.getOrDefault(cc, 0);
                 }
                 ans = Math.max(max, ans);
-                char ct = s.charAt(i-k);
-                if(set.contains(ct)){
-                    int t =count.getOrDefault(ct, 0);
-                    if(t>0){
-                        count.put(ct, t-1);
+                char ct = s.charAt(i - k);
+                if (set.contains(ct)) {
+                    int t = count.getOrDefault(ct, 0);
+                    if (t > 0) {
+                        count.put(ct, t - 1);
                     }
                 }
             }
@@ -79,7 +137,6 @@ class StockSpanner {
     }
 
     public int next(int price) {
-
 
 
         int count = 0;
