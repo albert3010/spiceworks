@@ -13,20 +13,72 @@ public class Solution2 {
 //        System.out.println(intervalIntersection(A, B));
 //        3
 //        int[][] AA = {{1, 2}, {1, 3}, {2, 4}};
-        int[][] AA = {{0,1},{2,1},{3,2},{0,4},{5,1},{2,6},{5,7},{3,8},{8,9}};
+        int[][] AA = {{0, 1}, {2, 1}, {3, 2}, {0, 4}, {5, 1}, {2, 6}, {5, 7}, {3, 8}, {8, 9}};
 //        4
 //                [[1,2],[1,3],[2,4]]
 //        System.out.println(possibleBipartition(4, AA));
         int[][] prerequisites = {{1, 5}, {0, 1}, {0, 2}, {2, 5}, {3, 4}, {4, 5}, {5, 3}};
 //        System.out.println(canFinish(6, prerequisites));
-        System.out.println(minReorder(10, AA));
+//        System.out.println(minReorder(10, AA));
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(3);
+        root.right = new TreeNode(2);
+        root.left.right = new TreeNode(3);
+        root.left.left = new TreeNode(5);
+        root.right.right = new TreeNode(9);
+
+        widthOfBinaryTree(root);
+
+    }
+
+    class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        public TreeNode(int val) {
+            this.val = val;
+        }
+    }
+
+    public int widthOfBinaryTree(TreeNode root) {
+        System.out.println();
+        Deque<TreeNode> deque = new LinkedList<>();
+        if (root == null) return 0;
+        int ans = 0;
+        deque.add(root);
+
+        while (!deque.isEmpty()) {
+            int l = deque.size();
+            while (l > 0) {
+                TreeNode nd = deque.poll();
+                if (nd == null) {
+                    deque.add(null);
+                    deque.add(null);
+                } else {
+                    deque.add(nd.left);
+                    deque.add(nd.right);
+                }
+                l--;
+            }
+            while (!deque.isEmpty() && (deque.getFirst()==null || deque.getLast()==null)) {
+                if (deque.getFirst() == null) {
+                    deque.pollFirst();
+                }
+                if (!deque.isEmpty() && deque.getLast() == null) {
+                    deque.pollLast();
+                }
+            }
+            ans = Math.max(ans, deque.size());
+        }
+        return ans;
     }
 
     public int minReorder(int n, int[][] connections) {
         int m = connections.length;
         Map<Integer, Integer> map = new HashMap<>();
         Map<Integer, List<Integer>> mapx = new HashMap<>();
-        boolean [][] aa = new boolean[n][n];
+        boolean[][] aa = new boolean[n][n];
         for (int i = 0; i < m; i++) {
             int a = connections[i][0];
             int b = connections[i][1];
