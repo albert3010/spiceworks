@@ -1,13 +1,26 @@
 package leetcode.june_contests.S1;
 
+import leetcode.contests.ContestAA.Contests2;
 import org.junit.Test;
 
 import java.util.*;
 
 public class Solution1 {
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
+        }
+    }
 
     @Test
     public void function() {
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(1, 1);
+
 //        int[] a = {1, 2, 3, 4, 8, 16, 9, 12, 15, 24, 48, 45, 90, 180, 1800};
         int[] a = {3, 1, 1, 1, 5, 1, 2, 1};
 //        System.out.println(largestDivisibleSubset(a));
@@ -18,8 +31,57 @@ public class Solution1 {
         wordDict.add("cats");
         wordDict.add("and");
         wordDict.add("dog");
-        System.out.println(wordBreak("catsanddog", wordDict));
+//        System.out.println(wordBreak("catsanddog", wordDict));
 //        System.out.println(validIPAddress("2001:db8:85a3:0:0:8A2E:0370:7334"));
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(3);
+        root.right.left = new TreeNode(7);
+        root.right.right = new TreeNode(8);
+        root.left.left = new TreeNode(4);
+        root.left.right = new TreeNode(5);
+        System.out.println(countPairs(root, 3));
+
+    }
+    public int countPairs(TreeNode root, int distance) {
+
+        int [] ans =new int [1];
+        countPairshelper(root, distance, 0, ans);
+        return ans[0];
+
+    }
+
+    HashMap<Integer, Integer> countPairshelper(TreeNode node, int distance, int currDis, int[] ans) {
+        if (node == null) return new HashMap<>();
+
+        HashMap<Integer, Integer> curr = new HashMap<>();
+        if (node.left == null && node.right == null) {
+            curr.put(currDis, 1);
+            return curr;
+        }
+        HashMap<Integer, Integer> left = countPairshelper(node.left, distance, currDis + 1, ans);
+        HashMap<Integer, Integer> right = countPairshelper(node.right, distance, currDis + 1, ans);
+
+
+
+        left.forEach((k1, v1) ->
+                right.forEach((k2, v2) -> {
+                            if (k1 + k2- 2*currDis <= distance) {
+                                ans[0] += v1*v2;
+                            }
+                        }
+                ));
+        left.forEach((k1, v1) -> {
+            curr.putIfAbsent(k1, 0);
+            curr.put(k1, curr.get(k1) + v1);
+        });
+        right.forEach((k2, v2) -> {
+            curr.putIfAbsent(k2, 0);
+            curr.put(k2, curr.get(k2) + v2);
+        });
+
+
+        return curr;
     }
 
     public String validIPAddress(String IP) {
@@ -132,7 +194,7 @@ public class Solution1 {
                     ss = dpval[start][i];
                 }
                 List<String> lla = new ArrayList<>();
-                if(ll.size()==0 && i==s.length()-1){
+                if (ll.size() == 0 && i == s.length() - 1) {
                     lla.add(ss);
                 }
                 for (String item : ll) {

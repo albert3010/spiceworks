@@ -1,4 +1,7 @@
 package leetcode.design_problems.print_in_order;
+
+import test.HashMap;
+
 class Foo {
 
     private int turn = 1;
