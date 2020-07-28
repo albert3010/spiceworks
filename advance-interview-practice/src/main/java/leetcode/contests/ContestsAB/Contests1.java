@@ -26,6 +26,7 @@ public class Contests1 {
         System.out.println(minInsertions("leetcode"));
     }
 
+
     public int minInsertions(String s) {
         int n = s.length();
         int dp[][] = new int[n][n];

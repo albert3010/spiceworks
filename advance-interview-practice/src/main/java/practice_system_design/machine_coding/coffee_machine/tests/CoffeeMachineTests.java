@@ -12,7 +12,6 @@ import practice_system_design.machine_coding.coffee_machine.Ingredient;
 import practice_system_design.machine_coding.coffee_machine.IngredientInventory;
 import practice_system_design.machine_coding.coffee_machine.QuantityType;
 
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class CoffeeMachineTests {

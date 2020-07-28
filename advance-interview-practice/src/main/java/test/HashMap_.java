@@ -1,10 +1,9 @@
 package test;
 
-import java.time.temporal.ValueRange;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class HashMap implements Map{
+public class HashMap_ implements Map_ {
     int capacity;
     int []keymap;
 
@@ -13,7 +12,7 @@ public class HashMap implements Map{
     int [] group;
     int bCount;
     Semaphore semaphore;
-    HashMap(){
+    HashMap_(){
         this.capacity = 1000;
         keymap = new int[1000];
         group = new int [10];
