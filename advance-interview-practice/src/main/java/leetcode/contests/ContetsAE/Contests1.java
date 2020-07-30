@@ -2,10 +2,7 @@ package leetcode.contests.ContetsAE;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Contests1 {
 
@@ -18,8 +15,74 @@ public class Contests1 {
 //        System.out.println(solve(5, 3));
         String[] ss = {"eat", "tea", "tan", "ate", "nat", "bat"};
 //        System.out.println(groupAnagrams(ss));
-        int a[] = {1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1};
-        System.out.println(findMaxLength(a));
+//        int a[] = {1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1};
+//        System.out.println(findMaxLength(a));
+        char tasks[] = {'A','A','A','B','B','B'};
+        System.out.println(leastInterval(tasks, 2));
+    }
+
+    class TaskNode implements Comparable<TaskNode> {
+        char task;
+        int rem;
+        int nextTime;
+
+        TaskNode(char task, int rem, int nextTime) {
+            this.task = task;
+            this.rem = rem;
+            this.nextTime = nextTime;
+        }
+
+        public void reduceRemCount() {
+            this.rem--;
+        }
+
+        public TaskNode updateRemCount() {
+            this.rem++;
+            return this;
+        }
+
+        public void updateNextTime(int time) {
+            this.nextTime = time;
+        }
+
+        public int compareTo(TaskNode p) {
+            return p.rem - this.rem;
+        }
+    }
+
+    public int leastInterval(char[] tasks, int n) {
+        if (n == 0) return tasks.length;
+
+        Deque<TaskNode> coolingList = new LinkedList<>();
+        PriorityQueue<TaskNode> taskQ = new PriorityQueue<>();
+        HashMap<Character, TaskNode> mapCount = new HashMap<>();
+        int l = tasks.length;
+        for (int i = 0; i < l; i++) {
+            mapCount.putIfAbsent(tasks[i], new TaskNode(tasks[i], 0, 0));
+            mapCount.put(tasks[i], mapCount.get(tasks[i]).updateRemCount());
+        }
+        for (TaskNode nd : mapCount.values()) {
+            taskQ.add(nd);
+        }
+        int timeCounter = 0;
+
+        while (!(taskQ.isEmpty() && coolingList.isEmpty())) {
+
+            if (!coolingList.isEmpty() && coolingList.getFirst().nextTime == timeCounter) {
+                taskQ.add(coolingList.pollFirst());
+            }
+            if (!taskQ.isEmpty()) {
+                TaskNode nd = taskQ.poll();
+                nd.reduceRemCount();
+                nd.updateNextTime(timeCounter + n + 1);
+                if (nd.rem != 0) {
+                    coolingList.add(nd);
+                }
+            }
+
+            timeCounter++;
+        }
+        return timeCounter;
 
     }
 
