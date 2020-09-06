@@ -92,7 +92,7 @@ public class Node {
             if (root.child[c - 'a'] == null) {
                 root.child[c - 'a'] = new TrieNode(c);
             }
-            if (index + 1 == s.length()) {
+            if (index == s.length()-1) {
                 root.child[c - 'a'].isWord = true;
             }
             addWorldToTrie(root.child[c - 'a'], s, index + 1);

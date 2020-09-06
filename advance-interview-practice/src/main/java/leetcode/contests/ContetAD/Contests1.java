@@ -193,6 +193,7 @@ public class Contests1 {
         }
         // default in min heap
         PriorityQueue<Integer> priorityQueue = new PriorityQueue<>((x, y) -> y - x);
+        PriorityQueue<Integer> q = new PriorityQueue<>((x, y)-> x-y);
         for (Integer k : map.keySet()) {
             priorityQueue.add(map.get(k));
         }
