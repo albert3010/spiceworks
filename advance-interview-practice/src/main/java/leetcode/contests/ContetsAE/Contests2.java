@@ -1,8 +1,5 @@
 package leetcode.contests.ContetsAE;
 
-import com.sun.corba.se.spi.orbutil.threadpool.NoSuchThreadPoolException;
-import com.sun.media.jfxmediaimpl.HostUtils;
-import leetcode.contests.ContetAD.Contests10;
 import org.junit.Test;
 
 import java.util.*;

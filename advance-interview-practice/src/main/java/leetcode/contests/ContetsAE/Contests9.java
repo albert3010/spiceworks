@@ -1,15 +1,13 @@
 package leetcode.contests.ContetsAE;
 
 import com.google.common.base.Strings;
-import org.junit.Test;
 
 import java.util.*;
 
 public class Contests9 {
     static int dp1[];
 
-    //8531703
-    @Test
+
     public void ContestsSolution() {
         updatePrimes();
         System.out.println(primeDigitSums(6652));
@@ -20,6 +18,73 @@ public class Contests9 {
         return new HashSet<>(Arrays.asList(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43));
 
     }
+
+
+    public List<String> alertNames(String[] keyName, String[] keyTime) {
+
+        HashMap<String, List<Integer>> map = new HashMap<>();
+        int n = keyName.length;
+        List<String> ans = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            List<Integer> list = map.getOrDefault(keyName[i], new ArrayList<>());
+            list.add(getValueOfTime(keyTime[i]));
+            map.put(keyName[i], list);
+        }
+
+        for (String key : map.keySet()) {
+            List<Integer> list = map.get(key);
+            List<Integer> list2 = new ArrayList<>(list);
+            list2.addAll(list);
+
+            if(solve(list2)){
+                ans.add(key);
+            }
+        }
+        Collections.sort(ans);
+        return ans;
+    }
+
+    public boolean solve(List<Integer> times) {
+        Deque<Integer> deque = new LinkedList<>();
+        int n = times.size();
+
+        for (int i = 0; i < n; i++) {
+            deque.add(times.get(i));
+            while (!deque.isEmpty()) {
+                int fr = deque.getFirst();
+                int ls = deque.getLast();
+                if (getTimeDiff(fr, ls) > 60) {
+                    deque.pollFirst();
+                } else {
+                    if (deque.size() > 2) {
+                        return true;
+                    } else return false;
+                }
+            }
+            if (deque.size() > 2) {
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+    int getTimeDiff(int val1, int val2) {
+        if (val2 == 0) {
+            return 2400 + val2 - val1;
+        }
+        return val2 - val1;
+    }
+
+    int getValueOfTime(String time) {
+        String hr = time.substring(0, 2);
+        String min = time.substring(3, 5);
+        int val = Integer.valueOf(hr) * 100 + Integer.valueOf(min);
+        return val;
+
+    }
+
 
     public static List<List<Integer>> get3DigitPrimes(Set<Integer> primes) {
         List<List<Integer>> lists = new ArrayList<>();

@@ -31,13 +31,7 @@ public class FoodOrderingApp {
         Menu menu3 = new Menu(new ArrayList<>(Arrays.asList(item7, item8, item5, item11)));
         Restaurant restaurant3 = new Restaurant(menu3, 1, 4.9);
 
-        RestaurantService restaurantService = new RestaurantService();
-        restaurantService.onBoardRestaurant(restaurant1);
-        restaurantService.onBoardRestaurant(restaurant2);
-        restaurantService.onBoardRestaurant(restaurant3);
-        restaurantService.addItemToRestaurant(restaurant1.getId(), item9);
-        restaurantService.addItemToRestaurant(restaurant1.getId(), item9);
-        restaurantService.updateItemToRestaurant(restaurant1.getId(), item10);
+        RestaurantService restaurantService = getRestaurantService(restaurant1, restaurant2, item9, item10, restaurant3);
 
         OrderService orderService = new OrderService(restaurantService);
 
@@ -71,6 +65,18 @@ public class FoodOrderingApp {
         Order order5 = new Order(new ArrayList<>(Arrays.asList(itemQuantity4, itemQuantity5)), Selection.COST, user2);
         orderService.placeOrder(order5);
 
+    }
+
+
+    private static RestaurantService getRestaurantService(Restaurant restaurant1, Restaurant restaurant2, Item item9, Item item10, Restaurant restaurant3) {
+        RestaurantService restaurantService = new RestaurantService();
+        restaurantService.onBoardRestaurant(restaurant1);
+        restaurantService.onBoardRestaurant(restaurant2);
+        restaurantService.onBoardRestaurant(restaurant3);
+        restaurantService.addItemToRestaurant(restaurant1.getId(), item9);
+        restaurantService.addItemToRestaurant(restaurant1.getId(), item9);
+        restaurantService.updateItemToRestaurant(restaurant1.getId(), item10);
+        return restaurantService;
     }
 
 
