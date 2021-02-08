@@ -3,22 +3,173 @@ package leetcode.contests.ContetsAE;
 import org.junit.Test;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class Contests1 {
 
     @Test
     public void ContestsSolution() {
-//        System.out.println(canConstruct("qlkzenwmmnpkopu", 15));
-//        System.out.println(numSteps("1101"));
-//        System.out.println(longestDiverseString(0, 8, 11));
-//        System.out.println(checkOverlap(1415, 807, -784, -733, 623, -533, 1005));
-//        System.out.println(solve(5, 3));
-        String[] ss = {"eat", "tea", "tan", "ate", "nat", "bat"};
-//        System.out.println(groupAnagrams(ss));
-//        int a[] = {1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1};
-//        System.out.println(findMaxLength(a));
-        char tasks[] = {'A','A','A','B','B','B'};
-        System.out.println(leastInterval(tasks, 2));
+        System.out.println(largestMerge("abcabc", "abdcaba"));
+    }
+
+    public String largestMerge(String word1, String word2) {
+        int l1 = word1.length();
+        int l2 = word2.length();
+
+        int i = 0;
+        int j = 0;
+        StringBuilder ans = new StringBuilder();
+        while (i < l1 && j < l2) {
+            if (word1.charAt(i) > word2.charAt(j)) {
+                ans.append(word1.charAt(i++));
+            }
+            if (word1.charAt(i) < word2.charAt(j)) {
+                ans.append(word2.charAt(j++));
+            } else {
+                int t1 = i;
+                int t2 = j;
+                while (t1 < l1 && t2 < l2 && word1.charAt(t1) == word2.charAt(t2)) {
+                    t1++;
+                    t2++;
+                }
+
+                if (t1 < l1 && t2 < l2) {
+                    if (word1.charAt(t1) > word2.charAt(t2)) {
+                        ans.append(word1.charAt(i++));
+                    }
+                    if (word1.charAt(t1) < word2.charAt(t2)) {
+                        ans.append(word2.charAt(j++));
+                    }
+                } else if (t2 < l2) {
+                    ans.append(word2.charAt(j++));
+                } else {
+                    ans.append(word1.charAt(i++));
+                }
+
+            }
+        }
+        while (i < l1) {
+            ans.append(word1.charAt(i++));
+        }
+        while (j < l2) {
+            ans.append(word2.charAt(j++));
+        }
+        return ans.toString();
+    }
+
+    public int maxAbsoluteSum(int[] nums) {
+
+        int n = nums.length;
+
+        int max = 0;
+        int min = 0;
+        int ans = 0;
+        int sum = 0;
+        for (int i = 0; i < n; i++) {
+            sum += nums[i];
+
+            ans = Math.max(max, Math.abs(sum - max));
+            ans = Math.max(max, Math.abs(sum - min));
+
+            max = Math.max(max, sum);
+            min = Math.min(max, sum);
+
+        }
+        return ans;
+    }
+
+    public int minimumLength(String s) {
+        int l = s.length();
+        int st = 0;
+        int en = l - 1;
+        while (st < en) {
+            if (s.charAt(st) == s.charAt(en)) {
+                int t = st;
+                while (t < l) {
+                    if (s.charAt(st) == s.charAt(t)) {
+                        t++;
+                    }
+                }
+                st = t;
+                t = en;
+                while (t >= 0 && t > st) {
+                    if (s.charAt(en) == s.charAt(t)) {
+                        t--;
+                    }
+                }
+                en = t;
+            } else {
+                break;
+            }
+
+        }
+        System.out.println(st);
+        System.out.println(en);
+        if (st == en) return 0;
+        return en - st + 1;
+    }
+
+    public int countBalls(int lowLimit, int highLimit) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        return IntStream.range(lowLimit, highLimit + 1)
+                .map(this::getDigitSum)
+                .map(e -> {
+                    map.putIfAbsent(e, 0);
+                    map.put(e, map.get(e) + 1);
+                    return map.get(e);
+                }).max().getAsInt();
+    }
+
+
+    int getDigitSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
+
+    public int[] restoreArray(int[][] adjacentPairs) {
+        int n = adjacentPairs.length;
+        int[] ans = new int[n + 1];
+        HashMap<Integer, List<Integer>> map = new HashMap<>();
+
+        for (int i = 0; i < n; i++) {
+            map.putIfAbsent(adjacentPairs[i][0], new ArrayList<>());
+            map.putIfAbsent(adjacentPairs[i][1], new ArrayList<>());
+            List<Integer> l1 = map.get(adjacentPairs[i][0]);
+            l1.add(adjacentPairs[i][1]);
+
+            map.put(adjacentPairs[i][0], l1);
+            List<Integer> l2 = map.get(adjacentPairs[i][1]);
+            l2.add(adjacentPairs[i][0]);
+
+            map.put(adjacentPairs[i][1], l2);
+
+        }
+        int start = map.entrySet().stream().filter(e -> e.getValue().size() == 1).findFirst().get().getKey();
+        System.out.println(start);
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i <= n; i++) {
+            System.out.println(i);
+            if (i != 0) {
+                int a = map.get(start).get(0);
+                int b = a;
+                if (map.get(start).size() == 2) {
+                    b = map.get(start).get(1);
+                }
+
+                if (!set.contains(a)) {
+                    start = a;
+                } else {
+                    start = b;
+                }
+            }
+            set.add(start);
+            ans[i] = start;
+        }
+        return ans;
     }
 
     class TaskNode implements Comparable<TaskNode> {
