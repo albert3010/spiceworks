@@ -1,6 +1,5 @@
 package practice_system_design.machine_coding.coffee_machine;
 
-import leetcode.JavaPractice.basic.E;
 import practice_system_design.machine_coding.coffee_machine.Beverage.Beverage;
 
 import java.util.HashMap;
