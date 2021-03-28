@@ -1,11 +1,7 @@
 package leetcode_contest_2021;
 
-import leetcode_2020.contests.ContestsAB.Contests6;
-import leetcode_2020.contests.ContetAD.Contests11;
-import leetcode_2020.contests.ContetsAE.Contests1;
 import org.junit.Test;
 
-import javax.validation.constraints.Max;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -27,22 +23,42 @@ public class Contest_march {
         int[][] edges = {{1, 3, 1}, {4, 1, 2}, {7, 3, 4}, {2, 5, 3}, {5, 6, 1}, {6, 7, 2}, {7, 5, 3}, {2, 6, 4}};
 //        countRestrictedPaths(n, edges);
         int[][] classes = {{1, 2}, {3, 5}, {2, 2}};
-        System.out.println(maxAverageRatio(classes, 2));
+//        System.out.println(maxAverageRatio(classes, 2));
 
     }
 
     public int maxValue(int n, int index, int maxSum) {
         int left = index;
         int right = n - left - 1;
-
-        int min = Math.min(left, right);
-        int t = min + 1;
-        int aSum = (t * (2 + (t - 1) * 2)) / 2;
-        int rem = maxSum - n;
         int ans = 1;
+        if (maxSum == n) return ans;
+        if (maxSum == 1 + n) return ans + 1;
+        ans++;
+        int min = Math.min(left, right);
+        int max = Math.max(left, right);
+        int t = min;
+//        min ==0
+        int aSum = (t * (2 * 3 + (t - 1) * 2)) / 2;
+        int rem = maxSum - n;
+
         if (aSum <= rem) {
             ans = t;
+            rem -= aSum;
+//            binary
+        } else {
+//            binary
+            int minl = 1;
+            int maxl = t;
+            while (minl < maxl) {
+
+                int mid = (minl + maxl) / 2;
+
+            }
+
+
         }
+
+
         return ans;
     }
 
