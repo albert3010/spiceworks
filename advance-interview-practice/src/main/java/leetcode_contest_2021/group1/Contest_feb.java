@@ -1,4 +1,4 @@
-package leetcode_contest_2021;
+package leetcode_contest_2021.group1;
 
 import org.junit.Test;
 
@@ -19,17 +19,73 @@ public class Contest_feb {
 //        System.out.println(closestCost(n, m, 9));
 //        System.out.println(longestDiffSubarray(a, 4));
 
-        char[][] mat = {
-                {'F', 'F', 'F'},
-                {'.', 'F', '.'},
-                {'.', 'F', 'F'},
-                {'#', 'F', '.'},
-                {'F', 'F', 'F'},
-                {'.', '.', '.'},
-                {'.', '.', '#'},
-                {'.', 'F', '.'}
-        };
-        System.out.println(figureUnderGravity(mat));
+//        char[][] mat = {
+//                {'F', 'F', 'F'},
+//                {'.', 'F', '.'},
+//                {'.', 'F', 'F'},
+//                {'#', 'F', '.'},
+//                {'F', 'F', 'F'},
+//                {'.', '.', '.'},
+//                {'.', '.', '#'},
+//                {'.', 'F', '.'}
+//        };
+//        System.out.println(figureUnderGravity(mat));
+        System.out.println(splitString("20000000000000000001"));
+        String s = "011010090807060";
+        s = s.replaceFirst("^0+(?!$)", "");
+//        System.out.println(s);
+    }
+
+    public boolean splitString(String s) {
+        s = s.replaceFirst("^0+(?!$)", "");
+        int l = s.length();
+        int st = 0;
+        long nextNum = -2;
+        int split =0;
+        return dfsHelperCheck(s, st, nextNum, split, l);
+    }
+
+    public boolean dfsHelperCheck(String s, int st, long nextNum, int split, int l) {
+        if (st == l){
+            if (split>1)
+            return true;
+            return false;
+        }
+        boolean f = false;
+        for (int i = st + 1; i <=l; i++) {
+
+            String tmp = s.substring(st, i);
+            String s1 = tmp.replaceFirst("^0+(?!$)", "");
+            if (s1.length()>11){
+                break;
+            }
+            long num = Long.parseLong(tmp);
+            if (nextNum == -2) {
+                if (num != 0){
+                     f = f  || dfsHelperCheck(s, i, num - 1, split+1, l);
+                }
+            } else {
+                if (num == nextNum) {
+                     f = f || dfsHelperCheck(s, i, num - 1, split+1, l);
+                }
+            }
+
+        }
+        return f;
+    }
+
+
+    public int getMinDistance(int[] nums, int target, int start) {
+        int l = nums.length;
+        int min = l + 1;
+        for (int i = 0; i < l; i++) {
+            if (target == nums[i]) {
+                if (Math.abs(i - start) < min) {
+                    min = Math.abs(i - start);
+                }
+            }
+        }
+        return min;
     }
 
     char[][] figureUnderGravity(char[][] matrix) {

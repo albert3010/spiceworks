@@ -1,7 +1,4 @@
-package leetcode_contest_2021;
-
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
-import org.junit.Test;
+package leetcode_contest_2021.group1;
 
 import java.util.*;
 

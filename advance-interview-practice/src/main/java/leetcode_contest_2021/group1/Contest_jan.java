@@ -1,4 +1,4 @@
-package leetcode_contest_2021;
+package leetcode_contest_2021.group1;
 
 import org.junit.Test;
 
