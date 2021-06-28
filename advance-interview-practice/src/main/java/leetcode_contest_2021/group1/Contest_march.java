@@ -23,7 +23,7 @@ public class Contest_march {
         int[][] edges = {{1, 3, 1}, {4, 1, 2}, {7, 3, 4}, {2, 5, 3}, {5, 6, 1}, {6, 7, 2}, {7, 5, 3}, {2, 6, 4}};
 //        countRestrictedPaths(n, edges);
         int[][] classes = {{1, 2}, {3, 5}, {2, 2}};
-//        System.out.println(maxAverageRatio(classes, 2));
+        System.out.println(maxAverageRatio(classes, 2));
 
     }
 
