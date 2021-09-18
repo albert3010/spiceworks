@@ -2,9 +2,7 @@ package leetcode_contest_2021.contest1;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class Contest1 {
 
@@ -22,7 +20,7 @@ public class Contest1 {
                 {1, 2, 3, 8, 4, 7, 6, 9, 6, 2},
                 {5, 10, 3, 4, 7, 2, 7, 5, 3, 10}
         };
-        rotateGrid(grid, 4);
+//        rotateGrid(grid, 4);
 //        [[4,2,4,7,2,4,7,1,7,2],[9,1,4,5,7,3,7,6,9,10],[8,6,10,1,6,3,5,7,2,7],[5,6,7,5,2,6,6,4,7,4],[4,9,1,1,2,2,3,8,4,3],[7,7,1,5,2,1,7,1,5,10]]
 //   [[4,2,4,7,2,4,7,1,7,2],
 //    [9,1,4,5,7,3,7,6,9,10],
@@ -30,15 +28,171 @@ public class Contest1 {
 //    [5,6,7,1,1,5,2,5,7,5],
 //    [4,9,1,1,2,2,3,8,4,7],
 //    [7,7,7,1,5,10,3,4,7,2]]
+//        sumGame("5023");
+        countPalindromicSubsequence("bbcbaba");
+    }
+
+
+
+    public int colorTheGrid(int m, int n) {
+
+        int mod = 1000000000 + 7;
+        long ans = 3;
+        for (int i = 2; i <= n; i++) {
+            ans = (ans * 2)%mod;
+        }
+        for (int i = 0; i < m; i++) {
+            ans = (ans * ans)%mod;
+        }
+        return (int)(ans)%mod;
 
     }
+
+    public int countPalindromicSubsequence(String s) {
+        int l = s.length();
+
+        StringBuilder ss = new StringBuilder("");
+        for (int i = 0; i < 26; i++) {
+            ss.append(" ");
+
+        }
+
+        StringBuilder[] left = new StringBuilder[l];
+        StringBuilder[] right = new StringBuilder[l];
+        for (int i = 0; i < l; i++) {
+            int j = s.charAt(i) - 'a';
+            StringBuilder s1 = new StringBuilder(ss.toString());
+            if (i != 0) {
+                s1 = new StringBuilder(left[i - 1].toString());
+            }
+            s1.setCharAt(j, (char) ('a' + j));
+            left[i] = s1;
+        }
+        for (int i = l - 1; i >= 0; i--) {
+            int j = s.charAt(i) - 'a';
+            StringBuilder s1 = new StringBuilder(ss.toString());
+            if (i != l - 1) {
+                s1 = new StringBuilder(right[i + 1].toString());
+            }
+            s1.setCharAt(j, (char) ('a' + j));
+            right[i] = s1;
+        }
+
+        Set<String> ans = new HashSet<>();
+        for (int i = 1; i < l - 1; i++) {
+            StringBuilder sl = left[i - 1];
+            StringBuilder sr = right[i + 1];
+            for (int j = 0; j < 26; j++) {
+                if (sl.charAt(j) == sr.charAt(j) && sr.charAt(j) != ' ') {
+                    ans.add(sl.charAt(j) + "#" + s.charAt(i) + "#" + sl.charAt(j));
+                }
+            }
+
+        }
+        return ans.size();
+    }
+
+    public int[] getConcatenation(int[] nums) {
+        int n = nums.length;
+        int[] arr = new int[2 * n];
+        for (int i = 0; i < 2 * n; i++) {
+            arr[i] = nums[i % n];
+        }
+        return arr;
+    }
+
+    public boolean sumGame(String num) {
+        int l = num.length();
+        int sumLeft = 0;
+        int sumRight = 0;
+        int leftC = 0;
+        int rightC = 0;
+        for (int i = 0; i <= l / 2; i++) {
+            if (num.charAt(i) == '?') {
+                leftC++;
+            } else {
+                sumLeft += num.charAt(i) - '0';
+            }
+        }
+        for (int i = l / 2 + 1; i < l; i++) {
+            if (num.charAt(i) == '?') {
+                rightC++;
+            } else {
+                sumRight += num.charAt(i) - '0';
+            }
+        }
+        if ((leftC + rightC) == 0 && sumLeft == sumRight) {
+            return false;
+        }
+        if ((leftC + rightC) % 2 != 0) {
+            return true;
+        }
+
+        System.out.println(sumLeft + " __ " + sumRight);
+        return false;
+
+    }
+
+    class NodeX {
+        int i;
+        int j;
+
+        public NodeX(int i, int j) {
+            this.i = i;
+            this.j = j;
+        }
+    }
+
+    public int nearestExit(char[][] maze, int[] entrance) {
+        int n = maze.length;
+        int m = maze[0].length;
+        Queue<NodeX> queue = new LinkedList<>();
+        queue.add(new NodeX(entrance[0], entrance[1]));
+        int[] dir = {0, 1, 0, -1, 0};
+        int step = 0;
+        while (!queue.isEmpty()) {
+            int l = queue.size();
+            while (l > 0) {
+                NodeX nd = queue.poll();
+                for (int i = 1; i < 5; i++) {
+                    int x = nd.i + dir[i];
+                    int y = nd.j + dir[i - 1];
+                    if (x >= 0 && x < n && y >= 0 && y < m && maze[x][y] == '.') {
+                        if (x == 0 || y == 0 || x == n - 1 || y == m - 1) {
+                            return step + 1;
+                        }
+                        queue.add(new NodeX(x, y));
+                        maze[nd.i][nd.j] = 'x';
+                    }
+                }
+                l--;
+            }
+            step++;
+        }
+        return -1;
+    }
+
+    public int countTriples(int n) {
+        int count = 0;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                for (int k = j + 1; k < n; k++) {
+                    if (i * i + j * j == k * k) {
+                        count++;
+                    }
+                }
+            }
+        }
+        return count;
+    }
+
 
     public int[][] rotateGrid(int[][] grid, int k) {
         int m = grid.length;
         int n = grid[0].length;
         int lm = m;
         int ln = n;
-        int tt = Math.min(m,n);
+        int tt = Math.min(m, n);
         for (int i = 0; i < tt / 2; i++) {
             List<Integer> list = getList(i, grid, lm, ln);
             List<Integer> ls = rotateList(list, k);
