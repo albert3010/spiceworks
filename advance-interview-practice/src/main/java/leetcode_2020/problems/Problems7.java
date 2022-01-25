@@ -3,6 +3,7 @@ package leetcode_2020.problems;
 import com.google.common.collect.Lists;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Problems7 {
@@ -14,16 +15,18 @@ public class Problems7 {
 
         String words[] = {"cat", "bt", "hat", "tree"};
         int grid[][] = {
-            {0, 0, 1, 0},
-            {1, 0, 1, 1},
-            {0, 1, 1, 0},
-            {1, 1, 1, 1}
+                {0, 0, 1, 0},
+                {1, 0, 1, 1},
+                {0, 1, 1, 0},
+                {1, 1, 1, 1}
         };
         String s = "abcde";
 //        System.out.println(optimalStrategyforaGame(a));
 //        System.out.println(alphabetBoardPath("zz"));
         System.out.println(largest1BorderedSquare(grid));
     }
+
+
 
     public int largest1BorderedSquare(int[][] grid) {
 
@@ -40,14 +43,14 @@ public class Problems7 {
                     areaMax = 1;
                 }
                 dpCol[i][j] = grid[i][j] + ((grid[i][j] != 0 && j > 0) ? dpCol[i][j - 1] : 0);
-                dpRow[i][j] = grid[i][j] + ((grid[i][j] != 0 && i > 0) ? dpRow[i-1][j] : 0);
+                dpRow[i][j] = grid[i][j] + ((grid[i][j] != 0 && i > 0) ? dpRow[i - 1][j] : 0);
             }
         }
 
         for (int k = 0; k < row; k++) {
             for (int i = k; i < row; i++) {
                 int row1 = k, row2 = i;
-                for (int col1 = 0, col2 = row2-row1; col2 < col; col1++, col2++) {
+                for (int col1 = 0, col2 = row2 - row1; col2 < col; col1++, col2++) {
                     areaMax = Math.max(checkIfBorderedSquare1(row1, row2, col1, col2, dpRow, dpCol, grid), areaMax);
                 }
             }
@@ -59,16 +62,16 @@ public class Problems7 {
 
         int checkAll = 0;
 
-        if (dpCol[row1][col2]+ grid[row1][col1] >= col2 - col1 + 1) {
+        if (dpCol[row1][col2] + grid[row1][col1] >= col2 - col1 + 1) {
             checkAll++;
         }
-        if (dpCol[row2][col2]+grid[row2][col1] >= col2 - col1 + 1) {
+        if (dpCol[row2][col2] + grid[row2][col1] >= col2 - col1 + 1) {
             checkAll++;
         }
-        if (dpRow[row2][col1]+grid[row2][col1] >= row2 - row1 + 1) {
+        if (dpRow[row2][col1] + grid[row2][col1] >= row2 - row1 + 1) {
             checkAll++;
         }
-        if (dpRow[row2][col2]+grid[row2][col1] >= row2 - row1 + 1) {
+        if (dpRow[row2][col2] + grid[row2][col1] >= row2 - row1 + 1) {
             checkAll++;
         }
         if (checkAll == 4) {

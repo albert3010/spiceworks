@@ -33,19 +33,52 @@ public class Contest1 {
     }
 
 
-
     public int colorTheGrid(int m, int n) {
 
         int mod = 1000000000 + 7;
         long ans = 3;
         for (int i = 2; i <= n; i++) {
-            ans = (ans * 2)%mod;
+            ans = (ans * 2) % mod;
         }
         for (int i = 0; i < m; i++) {
-            ans = (ans * ans)%mod;
+            ans = (ans * ans) % mod;
         }
-        return (int)(ans)%mod;
+        return (int) (ans) % mod;
+    }
 
+    public List<Integer> goodDaysToRobBank(int[] security, int time) {
+        List<Integer> ans = new ArrayList<>();
+        int l = security.length;
+        int[] right = new int[l];
+        int[] left = new int[l];
+        int counter = 0;
+        int i = 0;
+        while (i < l) {
+            right[i] = counter;
+            if (i + 1 < l && security[i] <= security[i + 1]) {
+
+            } else {
+                counter++;
+            }
+            i++;
+        }
+        i = l - 1;
+        while (i >= 0) {
+            left[i] = counter;
+            if (i - 1 >= 0 && security[i] <= security[i - 1]) {
+
+            } else {
+                counter++;
+            }
+            i--;
+        }
+
+        for (int j = 0; j < l; j++) {
+            if ((j - time >= 0 && left[j - time] == left[j]) && (j + time < l && right[j + time] == right[j])) {
+                ans.add(j);
+            }
+        }
+        return ans;
     }
 
     public int countPalindromicSubsequence(String s) {

@@ -2,12 +2,43 @@ package leetcode_contest_2021.home_contest_1;
 
 import org.junit.Test;
 
+import static com.sun.org.apache.xerces.internal.impl.xs.opti.SchemaDOM.traverse;
+
 public class HomeContest5 {
 
     @Test
     public void test() {
 //        System.out.println(solution(-100));
-        solution("20hgf100dfdbvs12@sd8dff60");
+//        solution("20hgf100dfdbvs12@sd8dff60");
+        System.out.println(racecar(6));
+
+    }
+
+    public int racecar(int target) {
+        StringBuilder ans = new StringBuilder("");
+        int pos = 0;
+        int speed = 1;
+        traversePath(pos, speed, target, ans);
+        return ans.toString().length();
+    }
+
+    private void traversePath(int pos, int speed, int target, StringBuilder ans) {
+        if (target == pos) return;
+        int tmpPos = pos + speed;
+        if (tmpPos > target) {
+            ans.append("R");
+            if (speed <=0) {
+                speed = 1;
+            } else {
+                speed = -1;
+            }
+            traversePath(pos, speed, target, ans);
+        } else {
+            ans.append("A");
+            pos += speed;
+            speed *= 2;
+            traversePath(pos, speed, target, ans);
+        }
     }
 
     public void solution(String s) {

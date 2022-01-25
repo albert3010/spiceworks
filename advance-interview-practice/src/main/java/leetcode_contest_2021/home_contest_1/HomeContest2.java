@@ -14,7 +14,88 @@ public class HomeContest2 {
         String[] a = {"3", "6", "7", "10"};
         int[] aa = {1, 2, 3};
 //        System.out.println(kthLargestNumber(a, 4));
-        System.out.println(minSessions(aa, 3));
+//        System.out.println(minSessions(aa, 3));
+
+        ListNode listNode1 = new ListNode(1);
+        listNode1.next = new ListNode(2);
+        listNode1.next.next = new ListNode(3);
+        listNode1.next.next.next = new ListNode(4);
+        listNode1.next.next.next.next = new ListNode(5);
+        listNode1.next.next.next.next.next = new ListNode(6);
+        listNode1.next.next.next.next.next.next = new ListNode(7);
+        listNode1.next.next.next.next.next.next.next = new ListNode(8);
+        ListNode ls = reverseEvenLengthGroups(listNode1);
+        int m= 0;
+    }
+
+    public class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode() {
+        }
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
+    }
+
+    public ListNode reverseEvenLengthGroups(ListNode head) {
+
+        int groupCount = 1;
+        return helperRevrse(head, null, groupCount);
+
+    }
+
+    private ListNode helperRevrse(ListNode head, ListNode prev, int groupCount) {
+        ListNode tmp = head;
+        if (head == null || head.next == null) return head;
+        if (groupCount % 2 == 0) {
+            ListNode prev1 = null;
+            ListNode next = null;
+            for (int i = 0; i < groupCount && tmp != null; i++) {
+                next = tmp.next;
+                tmp.next = prev1;
+                prev1 = tmp;
+                tmp = next;
+            }
+            prev.next = prev1;
+            helperRevrse(tmp, head, groupCount + 1);
+            return prev;
+        } else {
+            ListNode prev1 = null;
+            for (int i = 0; i < groupCount; i++) {
+                if (tmp != null) {
+                    prev1 = tmp;
+                    tmp = tmp.next;
+                }
+            }
+            if (tmp != null && tmp.next != null) {
+                return helperRevrse(tmp, prev1, groupCount + 1);
+            }
+            return head;
+        }
+    }
+
+
+    public int timeRequiredToBuy(int[] tickets, int k) {
+        int l = tickets.length;
+        int val = tickets[k];
+        int ans = 0;
+        for (int i = 0; i < l; i++) {
+            if (i > k) {
+                ans += Math.min(tickets[i], val - 1);
+            } else {
+                ans += Math.min(tickets[i], val);
+            }
+
+        }
+        return ans;
     }
 
     public int minSessions(int[] tasks, int sessionTime) {
