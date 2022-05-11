@@ -17,7 +17,7 @@ public class Contest_feb {
         int m[] = {2, 5};
 //        System.out.println(maximumScore(a, m));
 //        System.out.println(closestCost(n, m, 9));
-        System.out.println(longestDiffSubarray(a, 4));
+//        System.out.println(longestDiffSubarray(a, 4));
 
 //        char[][] mat = {
 //                {'F', 'F', 'F'},

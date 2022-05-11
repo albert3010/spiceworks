@@ -2,16 +2,96 @@ package leetcode_contest_2022.home_contest_1;
 
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class HomeContest6 {
 
     @Test
     public void test() {
-        int aa[] = {1, 3, 4, 2, 6, 8};
-        System.out.println(findOriginalArray(aa));
+//        int aa[] = {1,2,3,4,2,3,1,-4,2};
+//        System.out.println(medianSlidingWindow(aa, 4));
+        int [][] grid = {{1,1,0,0,1},{1,1,0,1,1},{1,1,0,0,1},{1,0,1,1,0},{0,0,0,0,0}};
+        Solution sl = new Solution();
+        sl.largestIsland(grid);
+    }
+    class Node {
+        int i;
+        int val;
+        Node(int i, int val){
+            this.i=i;
+            this.val=val;
+        }
+
+    }
+    int lambda(Node a, Node b){
+        if(a.val==b.val){
+            return a.i - b.i;
+        }
+        return a.val - b.val;
+    }
+    public double[] medianSlidingWindow(int[] nums, int k) {
+        List<Node> list = new ArrayList<>();
+        int j=0;
+        int l = nums.length;
+        TreeSet<Node> maxSet = new TreeSet<>( (a, b) -> lambda(b, a));
+        TreeSet<Node> minSet = new TreeSet<>(this::lambda);
+        for(int val: nums){
+            list.add(new Node(j++, val));
+            if(maxSet.contains(list.get(j-1))){
+                maxSet.add(list.get(j-1));
+            }else {
+                maxSet.add(list.get(j-1));
+            }
+        }
+
+        double [] ans = new double [l-k+1];
+        int left = k/2;
+        int right = k-left;
+
+        for(int i=0;i<k;i++){
+            maxSet.add(list.get(i));
+            minSet.add(list.get(i));
+            if(maxSet.size()>left){
+                maxSet.pollFirst();
+            }
+            if(minSet.size()>right){
+                minSet.pollFirst();
+            }
+        }
+        int t=0;
+        for(int i=k;i<=l;i++){
+            ans[t]= getMedian(maxSet, minSet);
+            if(i==l) break;
+            updateSets(maxSet, minSet, t, i, list);
+            t++;
+        }
+        return ans;
+    }
+    double getMedian(TreeSet<Node> maxSet, TreeSet<Node> minSet){
+
+        if(maxSet.size()>minSet.size()){
+            return maxSet.first().val+0.0;
+        }
+        if(maxSet.size()<minSet.size()){
+            return minSet.first().val+0.0;
+        }
+        return (maxSet.first().val+minSet.first().val)/2.0;
+    }
+
+    void updateSets(TreeSet<Node> maxSet, TreeSet<Node> minSet, int rm, int add, List<Node> list){
+        maxSet.remove(list.get(rm));
+        minSet.remove(list.get(rm));
+
+        maxSet.add(list.get(add));
+
+        Node nd = maxSet.pollFirst();
+        minSet.add(nd);
+
+        if(maxSet.size()>minSet.size()){
+            minSet.add(maxSet.pollFirst());
+        }else if(maxSet.size()<minSet.size()){
+            maxSet.add(minSet.pollFirst());
+        }
     }
 
     public int[] findOriginalArray(int[] changed) {

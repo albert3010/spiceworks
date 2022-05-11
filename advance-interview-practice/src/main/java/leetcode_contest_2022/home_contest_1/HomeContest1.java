@@ -8,6 +8,14 @@ import java.util.stream.Stream;
 public class HomeContest1 {
     int maxScore = 0;
 
+    class Node {
+        Node prev;
+        Node next;
+        int val;
+    }
+
+    Map<Integer, Node> map = new HashMap<>();
+
     @Test
     public void test() {
 //        System.out.println(minSwaps("]]][[["));
@@ -17,11 +25,140 @@ public class HomeContest1 {
 //        my: [1,1,2,3,2,3,4,5,3,4]
 //        System.out.println(test(Arrays.asList(7, 5, 9), Arrays.asList(13, 1, 4), 3));
 //        System.out.println(solution(aa, 4, 3));
-        String [] ax = {"ab", "babc", "bca"};
-        System.out.println(maxOccurrences("ababcbabc", ax));
+        String[] ax = {"ab", "babc", "bca"};
+//        System.out.println(maxOccurrences("ababcbabc", ax));
+//        performWarehouseQueries(null);
+        System.out.println(findTotalPower(Arrays.asList(2, 1, 3)));
+    }
+
+    int solve(int[][] arr) {
+        int n = arr[0].length;
+
+        int dp[][][] = new int[2][n + 1][2];
+
+        for (int i = 1; i <= n; i++) {
+            dp[0][i][0] = Math.max(
+                    Math.max(dp[0][i - 1][0], dp[0][i - 1][1]),
+                    Math.max(dp[1][i - 1][0], dp[1][i - 1][1])
+            );
+            dp[0][i][1] = Math.max(dp[0][i - 1][0], dp[1][i - 1][0]);
+
+            dp[1][i][0] = Math.max(
+                    Math.max(dp[0][i - 1][0], dp[0][i - 1][1]),
+                    Math.max(dp[1][i - 1][0], dp[1][i - 1][1])
+            );
+            dp[1][i][1] = Math.max(dp[0][i - 1][0], dp[1][i - 1][0]);
+        }
+        return Math.max(
+                Math.max(dp[0][n][0], dp[0][n][1]),
+                Math.max(dp[1][n][0], dp[1][n][1])
+        );
+    }
+
+    int solve2(int[][] arr) {
+        int n = arr[0].length;
+        int arr2[] = new int[n];
+        int exclude = 0;
+        int include = 0;
+        for (int i = 0; i < n; i++) {
+            arr2[i] = Math.max(arr[i][0], arr[i][1]);
+            int ex = Math.max(exclude, include);
+            include = exclude + arr2[i];
+            exclude = ex;
+        }
+        return Math.max(exclude, include);
+    }
+
+    public static int findTotalPower(List<Integer> power) {
+        int l = power.size();
+        int[] preSum = new int[l];
+        int k = 0;
+        int mod = 1000000000 + 7;
+        for (Integer val : power) {
+            if (k == 0) {
+                preSum[k] = val;
+            } else {
+                preSum[k] = (preSum[k - 1] + val) % mod;
+            }
+            k++;
+        }
+        int totalSum = 0;
+        for (int i = 0; i < l; i++) {
+            int min = power.get(i);
+            for (int j = i; j < l; j++) {
+                min = Math.min(min, power.get(j));
+                int sum = preSum[j];
+                if (i - 1 >= 0) {
+                    sum = preSum[j] - preSum[i - 1];
+                }
+                totalSum = (totalSum + (min * sum) % mod) % mod;
+            }
+        }
+        return totalSum;
+    }
+
+
+    public static List<List<String>> performWarehouseQueries(List<List<String>> query) {
+
+        Deque<String> deque = new LinkedList<>();
+        deque.addLast("1");
+        deque.addLast("2");
+        deque.addLast("3");
+        System.out.println(deque.removeFirst());
+
+        List<List<String>> ans = new ArrayList<>();
+
+        for (List<String> q : query) {
+            if (q.get(0).equals("SHIP")) {
+                List<String> pk = new ArrayList<>();
+                if (deque.size() >= 3) {
+                    pk.add(deque.removeFirst());
+                    pk.add(deque.removeFirst());
+                    pk.add(deque.removeFirst());
+                } else {
+                    pk.add("N/A");
+                }
+                ans.add(pk);
+            } else {
+                deque.addLast(q.get(1));
+            }
+        }
+        return ans;
+    }
+
+
+    public void interchange(int x, int y) {
+        Node value1 = map.get(x);
+        Node value2 = map.get(y);
+        if (value1.next == null || value1.next.val == value2.val) return;
+
+        Node change = value1.next;
+        remove(change);
+        add(value2, change);
 
     }
-    int bestSquares(int [][]m, int k){
+
+    void remove(Node change) {
+        Node prv1 = change.prev;
+        Node nxt1 = change.next;
+        prv1.next = nxt1;
+        if (nxt1 != null) {
+            nxt1.prev = prv1;
+        }
+    }
+
+    void add(Node st, Node add) {
+        Node nxt1 = st.next;
+        st.next = add;
+        add.prev = st;
+        add.next = nxt1;
+
+        if (nxt1 != null) {
+            nxt1.prev = add;
+        }
+    }
+
+    int bestSquares(int[][] m, int k) {
         int r = m.length;
         int c = m[0].length;
         return 0;
@@ -29,7 +166,7 @@ public class HomeContest1 {
     }
 
     int[] maxOccurrences(String sequence, String[] words) {
-       
+
         int n = words.length;
         int[] ans = new int[n];
         StringBuilder ss = new StringBuilder("");
