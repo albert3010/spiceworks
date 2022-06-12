@@ -9,6 +9,8 @@ public class Contests10 {
     @Test
     public void ContestsSolution() {
         List<Integer> a = new ArrayList<>();
+//        Stack<Integer> s = new Stack<>();
+
         String s = "rrlrlrllrlrlrlrlrlrlrllrlrlrrrrlrlrlr";
 //        37
 //        1
@@ -103,7 +105,8 @@ public class Contests10 {
 
         UnionFind(Integer n) {
             parent = new int[n];
-            IntStream.range(0, n).forEach(i -> parent[i] = i);
+            IntStream.range(0, n)
+                    .forEach(i -> parent[i] = i);
             result = n;
         }
 
