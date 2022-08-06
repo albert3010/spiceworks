@@ -67,7 +67,7 @@ public class BFS {
 
         } catch (InputMismatchException inputMismatch)
         {
-            System.out.println("Wrong Input Format");
+            System.out.println("Wrong model.Input Format");
         }
         scanner.close();
 
