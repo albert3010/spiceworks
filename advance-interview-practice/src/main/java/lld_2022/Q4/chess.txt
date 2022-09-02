@@ -1,0 +1,97 @@
+
+public class ChessGame {
+ private ChessBoard chessBoard;
+ private [] Player  players;
+ private GameStatus status;
+ private Player playerTurn;
+ List<Move> moveLogs;
+
+ public boolean playerMove(Position from, Position to, Piece piece);
+ public boolean endGame();
+ private void changeTurn();
+}
+
+class Account {
+    int id;
+    String name;
+    String email;
+    String password;
+    registeredAt;
+}
+enum GameStatus{
+  STARTED, IN_PROGRESS, FINISHED;
+}
+
+Player {
+    Account account;
+    Color color;
+    int timeLeft;
+}
+
+class ChessBoard {
+  List<List<Cell>> board;
+  Map<String, Cell> positionToCellMap;
+
+  public void resetBoard();
+
+  public boolean updateBoard(Move move);
+
+}
+
+class Cell {
+  Position position;
+  Color color;
+  Piece piece;
+}
+
+
+class Position {
+    int x;
+    char c;
+}
+enum Color{
+    WHITE, BLACK;
+}
+
+class Move{
+    Player turn;
+    Position from;
+    Position to;
+    Piece piece;
+    Piece killedPiece;
+}
+public abstract Piece {
+    Color color;
+    public abstract boolean move(Position from, Position to);
+    public abstract List<Position> possibleMoves(Position from);
+    public abstract boolean validate(Position from, Position to);
+}
+
+class Rook extends Piece{
+
+   boolean move(Position from, Position to);
+   List<Position> possibleMoves(Position from);
+   boolean validate(Position from, Position to);
+
+}
+
+class Queen extends Piece{
+
+   boolean move(Position from, Position to);
+   List<Position> possibleMoves(Position from);
+   boolean validate(Position from, Position to);
+
+}
+
+class King extends Piece{
+
+   boolean move(Position from, Position to);
+   List<Position> possibleMoves(Position from);
+   boolean validate(Position from, Position to);
+
+}
+
+
+
+
+

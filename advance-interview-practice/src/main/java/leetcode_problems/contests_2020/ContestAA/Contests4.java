@@ -2,6 +2,7 @@ package leetcode_problems.contests_2020.ContestAA;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Contests4 {
@@ -12,8 +13,45 @@ public class Contests4 {
         sb.append("abc");
         sb.insert(3, "de");
 //        sb.deleteCharAt(5);
-        sb.delete(1,3);
-        System.out.println(sb.toString());
+        sb.delete(1, 3);
+//        System.out.println(sb.toString());
+        int [] tiles = {1,1,0,0,0,1,0};
+        System.out.println(winner(tiles));
+
+    }
+
+    String winner(int[] tiles) {
+        int n = tiles.length;
+        List<Integer> countList = new ArrayList<>();
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            if (tiles[i] == 0) {
+                count++;
+            } else {
+                if(count>0)
+                countList.add(count);
+                count = 0;
+            }
+        }
+        if(count>0)
+            countList.add(count);
+        countList.sort((a, b) -> b-a);
+        System.out.println(countList.get(0));
+        int k= countList.size();
+        System.out.println(k);
+        if(k==0){
+            return "No";
+        }
+        int max1 = countList.get(0);
+        int max2 = 0;
+        if(k>1){
+             max2 = countList.get(1);
+
+        }
+        if( max1%2 == 0 || max1/2 < max2 ){
+            return "No";
+        }
+        return "Yes";
     }
 
     String[] solution(String[][] queries) {
@@ -36,11 +74,11 @@ public class Contests4 {
             cr[0] = cr[0] + queries[1].length();
         }
         if (queries[0].equals("MOVE")) {
-            cr[0] = Math.min( sb.length(), Integer.parseInt(queries[1]));
+            cr[0] = Math.min(sb.length(), Integer.parseInt(queries[1]));
         }
         if (queries[0].equals("FORWARD_DELETE")) {
-            if(cr[0] <sb.length()-1){
-                sb.deleteCharAt(cr[0]+1);
+            if (cr[0] < sb.length() - 1) {
+                sb.deleteCharAt(cr[0] + 1);
             }
         }
         return sb.toString();
