@@ -1,9 +1,6 @@
 package test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class Test {
 
@@ -12,11 +9,67 @@ public class Test {
         int[] arr = {2, 4, 1, 6, 12};
 //        System.out.println(solve(arr));
         List<Integer> list = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
-        List<Integer> ans = solve1(list, 1);
-        System.out.println(ans);
+//        List<Integer> ans = solve1(list, 1);
+//        System.out.println(ans);
 //        for (Integer v :ans){
 //            System.out.print(v+" ");
 //        }
+        test();
+
+    }
+    static class Doc{
+        int id;
+        String doc;
+
+        public Doc(int id, String doc) {
+            this.id = id;
+            this.doc = doc;
+        }
+    }
+    static void test(){
+
+        Doc doc1 = new Doc(1, "good one this good");
+        Doc doc2 = new Doc(2, "good one this");
+        Doc doc3 = new Doc(3, "bad this");
+
+
+        List<Doc> docs= new ArrayList<>();
+        docs.add(doc1);
+        docs.add(doc2);
+        docs.add(doc3);
+
+        Map<Integer, String []> docWords = new HashMap<>();
+        Map<Integer, Map<String, List<Integer>>> docMap = new HashMap<>();
+        Map<String,  Set<Integer>> docIds = new HashMap<>();
+
+        for (Doc doc :docs){
+            String [] words = doc.doc.split(" ");
+            docWords.put(doc.id, words);
+
+            int pos =0;
+            for (String w :words){
+
+                docMap.putIfAbsent(doc.id, new HashMap<>());
+                docMap.get(doc.id).putIfAbsent(w, new ArrayList<>());
+                docMap.get(doc.id).get(w).add(pos);
+
+                docIds.putIfAbsent(w, new HashSet<>());
+                docIds.get(w).add(doc.id);
+
+                pos++;
+            }
+        }
+        String search ="good one";
+        String [] words = search.split(" ");
+        for (String word :words){
+            Set<Integer> docIds_ = docIds.get(word);
+            List<Integer> ans = new ArrayList<>();
+
+            for (Integer docId  : docIds_){
+                Map<String, List<Integer>> docPos = docMap.get(docId);
+            }
+        }
+
     }
     static List<Integer> solve1(List<Integer> arr, int k){
         int n = arr.size();
