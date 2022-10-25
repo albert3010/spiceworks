@@ -2,24 +2,26 @@ package App;
 
 import java.util.List;
 
-public class ExactExpense extends Expense {
+public class PercentExpense extends Expense {
 
 
-    public ExactExpense(int id, Integer userId, List<Split> splits, Double amount) {
+    public PercentExpense(int id, Integer userId, List<Split> splits, Double amount) {
         super(id, userId, splits, amount);
     }
 
     @Override
     public boolean validate() {
         List<Split> splits = this.getSplits();
-        Double totalAmount = 0.0;
+        Integer percent = 0;
+
         for (Split split : splits) {
-            if (!(split instanceof ExactSplit)) {
+            if (!(split instanceof PercentSplit)) {
                 return false;
             }
-            totalAmount+=split.getAmount();
+            PercentSplit percentSplit = (PercentSplit) split;
+            percent += percentSplit.getPercent();
         }
-        if(totalAmount!=this.getAmount()) return false;
+        if (percent != 100) return false;
 
         return true;
     }

@@ -1,10 +1,14 @@
 package App;
 
+import lombok.Getter;
 
-public class ExactSplit extends Split{
+@Getter
+public class PercentSplit extends Split{
+    private Integer percent;
 
-    public ExactSplit(){
-        super();
+    public PercentSplit(int userId, Integer percent){
+        super(userId, 0);
+        this.percent = percent;
     }
 
     @Override

@@ -1,13 +1,14 @@
 package App;
 
-import lombok.AllArgsConstructor;
 
+public class ExactSplit extends Split{
 
-public class EqualSplit extends Split{
-
-    public EqualSplit(){
+    public ExactSplit(){
         super();
     }
 
-
+    @Override
+    public void setAmount(double amount) {
+        super.setAmount(amount);
+    }
 }
