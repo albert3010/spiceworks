@@ -12,7 +12,7 @@ public class DefaultLevelCache<Key, Value> implements ILevelCache<Key, Value> {
 
     private final CacheLevelData cacheLevelData;
     private final CacheProvider<Key, Value> cacheProvider;
-    private final ILevelCache<Key, Value> nextLevelCache;
+    private final ILevelCache<Key, Value> nextLevelCache; // chain
 
     @Override
     public WriteResponse set(Key key, Value value) {

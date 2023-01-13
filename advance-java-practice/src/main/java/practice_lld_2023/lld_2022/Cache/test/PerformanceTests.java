@@ -19,7 +19,7 @@ public class PerformanceTests {
         long endTime = System.currentTimeMillis();
 
         Long totalTime = endTime - startTime;
-        Assert.assertTrue( "Test exceeded maximum time limit of 14 seconds, Total time: " + totalTime, totalTime < 7000);
+        Assert.assertTrue( "MovieBooking.Test exceeded maximum time limit of 14 seconds, Total time: " + totalTime, totalTime < 7000);
     }
 
     @Test
@@ -32,7 +32,7 @@ public class PerformanceTests {
         long endTime = System.currentTimeMillis();
 
         Long totalTime = endTime - startTime;
-        Assert.assertTrue( "Test exceeded maximum time limit of 1 second, Total time: " + totalTime, totalTime < 1000);
+        Assert.assertTrue( "MovieBooking.Test exceeded maximum time limit of 1 second, Total time: " + totalTime, totalTime < 1000);
     }
 
     @Test

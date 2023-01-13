@@ -1,7 +1,7 @@
 //package leetcode.contests.ContestsAC;
 //
 //import com.google.common.collect.Lists;
-//import org.junit.Test;
+//import org.junit.MovieBooking.Test;
 //
 //import java.util.ArrayList;
 //import java.util.HashSet;
@@ -20,7 +20,7 @@
 //        }
 //    }
 //
-//    @Test
+//    @MovieBooking.Test
 //    public void ContestsSolution() {
 //
 //        List<List<String>> synonyms = Lists.newArrayList();

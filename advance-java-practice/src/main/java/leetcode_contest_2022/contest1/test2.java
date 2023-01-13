@@ -17,14 +17,157 @@ public class test2 {
                 {1, 2, 3, 8, 4, 7, 6, 9, 6, 2},
                 {5, 10, 3, 4, 7, 2, 7, 5, 3, 10}
         };
-        int[] arr = {3, 7, 15};
+
 
 //        System.out.println(addRungs(arr, 2));
 //        System.out.println(canBeTypedWords("hello world", "ad"));
 
 //        System.out.println(droppedRequests(Arrays.asList(1,1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,7,7,7,7,11,11,11,11)));
 //        System.out.println(droppedRequests(Arrays.asList(7,7,7,7,11,11,11,11,20,20,21,25,60)));
-        System.out.println(getLucky("ab", 1));
+//        System.out.println(getLucky("ab", 1));
+//        int[][] edges = {{0, 1}, {1, 2}, {1, 3}, {3, 4}};
+        int[][] edges = {{0, 1}};
+//        int[] arr = {-2, 4, 2, -4, 6};
+        int[] arr = {-7280,2350};
+        System.out.println(mostProfitablePath(edges, 1, arr));
+    }
+
+    class Node {
+        int nd;
+        int amount;
+
+        public Node(int nd, int amount) {
+            this.amount = amount;
+            this.nd = nd;
+        }
+    }
+
+    public int mostProfitablePath(int[][] edges, int bob, int[] amount) {
+        int m = edges.length;
+
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        Set<Integer> visited = new HashSet<>();
+        Set<Integer> opened = new HashSet<>();
+        Map<Integer, Integer> parent = new HashMap<>();
+        parent.put(0, -1);
+        for (int i = 0; i < m; i++) {
+            int a = edges[i][0];
+            int b = edges[i][1];
+            graph.putIfAbsent(a, new ArrayList<>());
+            graph.putIfAbsent(b, new ArrayList<>());
+            graph.get(a).add(b);
+            graph.get(b).add(a);
+        }
+        traverse2(graph, visited, 0, parent);
+        visited.clear();
+        Queue<Node> queue = new LinkedList<>();
+
+        queue.add(new Node(0, amount[0]));
+        int max = Integer.MIN_VALUE;
+        TreeSet<Integer> set = new TreeSet<>();
+
+        while (!queue.isEmpty()) {
+            if (bob != -1) {
+                opened.add(bob);
+                bob = parent.get(bob);
+            }
+            int l = queue.size();
+            while (l > 0) {
+                Node node = queue.poll();
+                visited.add(node.nd);
+                int val1 = node.amount;
+
+                boolean isLeaf = true;
+                for (Integer nd : graph.getOrDefault(node.nd,new ArrayList<>())) {
+                    if (!visited.contains(nd)) {
+                        isLeaf = false;
+                        int val = val1;
+                        if (!opened.contains(nd)) {
+                            if (bob == nd) {
+                                val += amount[nd] / 2;
+                            } else {
+                                val += amount[nd];
+                            }
+                        }
+                        queue.add(new Node(nd, val));
+                    }
+                }
+                if (isLeaf) {
+                    max = Math.max(max, node.amount);
+                }
+                l--;
+            }
+
+        }
+        return max;
+    }
+
+    private void traverse2(Map<Integer, List<Integer>> graph, Set<Integer> visited,
+                           int node, Map<Integer, Integer> parent) {
+
+        if (visited.contains(node)) return;
+        visited.add(node);
+        for (Integer nd : graph.get(node)) {
+
+            if(!visited.contains(nd)){
+                parent.put(nd, node);
+                traverse2(graph, visited, nd, parent);
+            }
+
+        }
+    }
+
+    public int reachableNodes(int n, int[][] edges, int[] restricted) {
+        int m = edges.length;
+
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        Set<Integer> set = new HashSet<>();
+        for (int v : restricted) {
+            set.add(v);
+        }
+        for (int i = 0; i < m; i++) {
+            int a = edges[i][0];
+            int b = edges[i][1];
+            graph.putIfAbsent(a, new ArrayList<>());
+            graph.putIfAbsent(b, new ArrayList<>());
+            graph.get(a).add(b);
+            graph.get(b).add(a);
+        }
+        return traverse(graph, 0, set);
+    }
+
+    private int traverse(Map<Integer, List<Integer>> graph, int node, Set<Integer> set) {
+        if (set.contains(node)) return 0;
+        int count = 0;
+        for (Integer nd : graph.get(node)) {
+            set.add(nd);
+            count += traverse(graph, nd, set);
+        }
+        return count + 1;
+
+    }
+
+    public int longestIdealString(String s, int k) {
+        int n = s.length();
+        int st = 0;
+        TreeSet<Character> set = new TreeSet<>((a, b) -> {
+            int l = a - 'a';
+            int h = b - 'a';
+            int abs = Math.abs(l - h);
+            return k - abs;
+        });
+        int max = 1;
+        for (int i = 0; i < n; i++) {
+            char c = s.charAt(i);
+            Character ceil = set.ceiling(c);
+            if (ceil != null) {
+                set.remove(c);
+            }
+            set.add(c);
+            max = Math.max(max, set.size());
+
+        }
+        return max;
     }
 
     public int maxCompatibilitySum(int[][] students, int[][] mentors) {
@@ -44,7 +187,7 @@ public class test2 {
             }
         }
 
-return 1;
+        return 1;
     }
 
     public String maximumNumber(String num, int[] change) {
