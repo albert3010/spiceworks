@@ -6,13 +6,52 @@ public class SolutionTest {
     public static void main(String[] args) {
         Solution solution = new Solution();
         String[] strings = {"10", "0", "1"};
-        int [] a ={1};
+        int[] a = {1};
+        Arrays.stream(a).min().getAsInt();
 
         List<Integer> intList = Arrays.asList(5, 8, 3, 2);
 // To get max value
         int maxVal = Arrays.stream(a).max().getAsInt();
 
+//        int [][] aa = {
+//        {-2,10},
+//        {-8,-4},
+//        {-1,9},
+//        {-6,-4},
+//        {-3,9}};
 
+        int [][] aa = {
+        {4,9},
+        {6,8},
+        {-5,3},
+        {8,9},
+        {-7,2}};
+
+        System.out.println(solution(aa));
+    }
+
+    static int solution(int[][] coordinates) {
+        int n = coordinates.length;
+        Arrays.sort(coordinates, (a, b) -> {
+            if (a[0] == b[0]) {
+                return a[1] - b[1];
+            }
+            return a[0] - b[0];
+        });
+        int ans = coordinates[0][1] - coordinates[0][0] + 1;
+        int lastIndex = coordinates[0][1];
+        for (int i = 1; i < n; i++) {
+            if (coordinates[i][0] <= lastIndex) {
+                if(coordinates[i][1]>lastIndex){
+                    ans += coordinates[i][1] - lastIndex;
+                    lastIndex = coordinates[i][1];
+                }
+            } else {
+                ans += coordinates[i][1] - coordinates[i][0] + 1;
+                lastIndex = coordinates[i][1];
+            }
+        }
+        return ans;
     }
 
     class Node {
