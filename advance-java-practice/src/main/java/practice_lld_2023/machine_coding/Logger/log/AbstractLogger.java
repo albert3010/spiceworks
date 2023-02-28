@@ -20,5 +20,5 @@ public abstract class AbstractLogger {
 
     }
 
-    public abstract void display(String message,LogSubject logSubject);
+    public abstract void display(String message, LogSubject logSubject);
 }
