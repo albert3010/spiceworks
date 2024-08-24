@@ -1,0 +1,20 @@
+Features Required:
+Board Initialization: A board with a predefined size.
+
+Players: Multiple players can play the game.
+
+Snakes and Ladders: Random placement of snakes and ladders.
+
+Dice Roll: A player can roll a dice and move accordingly.
+
+Game Logic: Movement according to dice roll and handling snakes and ladders.
+
+
+-------- thinking ----
+
+entity
+1. board -> n
+2. player
+3. Dice
+4. jump -> snake n ladder
+5. logic

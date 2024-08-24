@@ -1,0 +1,86 @@
+
+Features Included:
+
+User Authentication: Secure login and registration.
+
+Room Listings: Hosts can list their rooms with details such as location, amenities, and pricing.
+
+Bookings: Users can book rooms for specific dates.
+
+Reviews and Ratings: Users can review and rate rooms and hosts.
+
+Messaging: Communication between hosts and guests.
+
+Search Functionality: Users can search for available rooms based on location, dates, and amenities.
+
+Transaction Processing: Handling room reservations and payments.
+
+Dynamic Pricing of Rooms: Room prices can change based on demand, season, etc.
+
+Multi-Currency Support: Room pricing can be in different currencies.
+
+Inventory Management: Manage the availability of rooms based on bookings.
+
+-------------------------------------------------------------------------------------------------------------------------
+
+
+@User table
+-user_id
+-username
+-email
+-password_hash
+-created_at
+
+@Room
+-room_id
+-host_id
+-location
+-amenities
+-base_price_per_night
+-currency
+-created_at
+
+@DynamicPricing
+-pricing_id
+-room_id
+-start_id
+-end_id
+-price_per_night
+-currency
+
+@Bookings
+-booking_id
+-user_id
+-room_id
+-booking_from
+-booking_to
+-amount
+-booked_at
+
+@Reviews
+-review_id
+-room_id
+-user_id
+-review_rating
+-review-comments
+-created_at
+
+@Messages
+-message_id
+-sender_id
+-receiver_id
+-message
+-sent_at
+
+@Currencies
+-currency_code
+-currency_exchange
+
+
+
+
+
+
+
+
+
