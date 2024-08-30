@@ -2,19 +2,25 @@ package practice_lld.top25.lld.splitwise.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Value;
 import practice_lld.top25.lld.splitwise.split.Split;
+import practice_lld.top25.lld.splitwise.split.SplitType;
 
 import java.util.List;
 import java.util.Map;
 
 @AllArgsConstructor
 @Getter
+@Value
 public class Expense {
     int expenseId;
-    String expenseName;
-    List<User> users;
     int groupId;
+    String expenseName;
+
+    // ExpenseDetails
+    List<User> users;
     Double totalAmount;
+    SplitType splitType;
     Split splitStrategy;
     Map<User, Double> usersPaid;
 

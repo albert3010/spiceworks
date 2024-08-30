@@ -19,3 +19,4 @@ public class User {
         this.userId = Constants.getUserId();
     }
 }
+// use record java 11

@@ -1,19 +1,21 @@
 package practice_lld.top25.lld.splitwise.entity;
 
 import lombok.Getter;
+import lombok.Value;
 import practice_lld.top25.lld.splitwise.Constants;
 
 import java.util.*;
 
 @Getter
+@Value
 public class Group {
     int groupId;
     String groupName;
     String description;
     Set<User> users;
-    private List<Expense> expenses;
-    private Map<Integer, Double> userNetBalance;
-    private Map<Integer, Map<Integer, Double>> balanceSheet;
+    List<Expense> expenses;
+    Map<Integer, Double> userNetBalance;
+    Map<Integer, Map<Integer, Double>> balanceSheet;
 
     public Group(String groupName, Set<User> users, String description) {
         this.groupId = Constants.getGroupId();

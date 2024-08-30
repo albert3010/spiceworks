@@ -18,3 +18,11 @@ entity
 3. Dice
 4. jump -> snake n ladder
 5. logic
+
+
+
+//    class SplitVisitor{
+
+        visitPercentage(Map<User, Double> percentages)
+        visitEqual()
+// }
