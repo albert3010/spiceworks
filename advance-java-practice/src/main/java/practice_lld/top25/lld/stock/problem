@@ -1,0 +1,27 @@
+Stock Broker:
+
+
+1. User should be to place order for buy and sell.
+4. ENd of the day user should be able to she his holding.
+5. User should be able to see all the transcation history.
+
+Below the line.
+3. If a stock hit upper or lower circuit then transcation should be deined.
+5. Design should be open for multiple type of order support in future.
+
+
+Assumption:
+Company is already listed,
+Only NSE supported.
+
+
+-------
+
+Entity
+
+User
+Stock
+Transaction
+Holding
+StockPrice
+Order

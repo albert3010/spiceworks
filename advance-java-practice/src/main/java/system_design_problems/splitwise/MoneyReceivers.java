@@ -1,12 +1,13 @@
 package system_design_problems.splitwise;
 
 import lombok.AllArgsConstructor;
-import org.joda.time.DateTime;
+
+import java.util.Date;
 
 @AllArgsConstructor
 public class MoneyReceivers {
     int receivedFrom;
     int receivedTo;
     double amount;
-    DateTime date;
+    Date date;
 }
