@@ -24,7 +24,7 @@ public class Expense {
     Split splitStrategy;
     Map<User, Double> usersPaid;
 
-    public void addPayment(User user, double amount){
+    public void addPayment(User user, double amount) {
         usersPaid.put(user, amount);
     }
 

@@ -1,0 +1,136 @@
+Key Entities:
+    Rider: Represents a user who can book a cab.
+    Driver/Cab: Represents a driver and their cab, with fields for location and availability.
+    Ride: Represents a ride request and its lifecycle (booking, ongoing, completed).
+Functional Requirements Recap:
+    Register a rider.
+    Register a driver/cab.
+    Update a cab's location.
+    Driver availability status.
+    Rider can book the nearest cab.
+    Fetch ride history for a rider.
+    End a trip.
+
+----------------
+@Users
+    id
+    name
+    email
+    phone_number
+    registered_at
+----------------
+
+@Drivers
+    driver_id
+    vehicle_id
+    name
+    email
+    phone_number
+    status ('Available', 'Ongoing', 'Offline')
+    registered_at
+-----------------
+
+@Vehicles
+    vehicle_id (PK)
+    name
+    plate_no
+-----------------
+
+@Rides
+    ride_id
+    rider_id
+    driver_id
+    source
+    destination
+    status ('Ongoing', 'finished', 'canceled')
+    started_at
+    finished_at
+----------------
+
+@Driver_Location
+    id (pk)
+    driver_id
+    lat
+    long
+    last_updated_at
+----------------
+
+@Bills
+    bill_id
+    ride_id
+    total_distance
+    total_time
+    fare_amount
+    discount
+    tax
+    extra_charges (toll)
+    status ('Paid', 'Pending')
+    created_at
+
+---- API --------
+
+POST /riders/register
+    Body{
+        name
+        email
+        phone_no
+    }
+Response {
+    rider_id
+    status
+}
+
+POST /drivers/register
+
+PUT /drivers/location
+    {
+      lat,
+      long
+    }
+
+POST /riders/book
+     Body{
+         pickupLocation: {
+            lat,
+            long
+         }
+         cabType: SUV
+         searchRedis: 2 km
+     }
+
+GET /riders/rides?page=1
+    {
+     rides : [
+        {rideId, fare,...metadata},
+        {rideId, fare,...metadata},
+      ]
+      page : 1
+      limit: 10
+    }
+
+PUT /rides/{ride_id}/end
+    {
+        "message": "Trip ended successfully",
+        "fare": 150.75
+    }
+
+------- Services -----
+    RiderService
+    DriverService
+    RideService
+    BillingService
+
+-----  Repo -----
+    RiderRepo
+    DriverRepo
+    RideRepo
+    LocationRepo
+
+
+
+
+
+
+
+
+

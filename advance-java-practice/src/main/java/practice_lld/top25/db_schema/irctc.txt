@@ -1,0 +1,106 @@
+[//]: # (https://aditi22aggarwal-23582.medium.com/irctc-system-design-data-modeling-and-parallel-booking-management-system-edbb440c117a)
+
+Functional Requirements
+We will be covering a small section of the complete set of requirements in this article. Particularly focussed on the schema structure, train search, and booking management.
+
+Each user should have a profile with personal details
+Users should be able to search trains by train number and via source and destination.
+Users should be able to see the number of available seats, given the train, source, and destination.
+Users should be able to book tickets (The system should be able to handle concurrent booking requests in a fair manner).
+Seat Reusability of booked seats IS allowed. (User A books a seat S1 from station1 to station2 then UserB should be able to book the same seat S1 from station3 onwards).
+Users should be able to cancel a booked ticket.
+
+
+**DB schema**
+
+1. User
+2. Train
+3. Station
+4. Ticket
+5. Account
+6. Schedule
+7. Routs
+
+@User
+id
+name
+phone_no
+email
+createdAt
+
+@Account
+id
+username
+password
+createdAt
+
+@Train
+trainNo
+name
+code
+detail
+
+@Station
+id
+name
+detail
+
+@Schedule
+id
+trainId
+source
+destination
+arrival
+departure
+totalSeats
+
+@Stops
+id
+scheduleId
+StopNo
+stationId
+arrival
+departure
+
+@Booking
+scheduleId
+userId
+StopFrom
+StopTo
+source
+destination
+seatId
+amount
+
+
+
+@Boogi
+id
+trainId
+boogiNo
+
+@Seat
+id
+BoogiId
+seatNo
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

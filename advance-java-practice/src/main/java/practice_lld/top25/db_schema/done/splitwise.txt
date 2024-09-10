@@ -1,0 +1,144 @@
+
+Splitwise Tables
+
+@User
+    user_id (PK)
+    name
+    email
+    phone
+    registered_at
+-------
+@Group
+    group_id (PK)
+    name
+    description
+    tag
+    created_at
+----------
+@GroupUser
+    group_id
+    user_id
+    PK(group_id, user_id)
+---------------------
+@Expense
+    expense_id (PK)
+    group_id (NULL)
+    total_amount
+    user_created_by
+    description
+    expense_type('Equal', 'Percentage', 'share')
+    url_link
+    created_at
+---------------------
+@ExpenseDetail
+    expense_detail_id
+    expense_id
+    user_id
+    contributed_amount
+    amount_owed
+-----------------
+@Transaction
+    transaction_id (PK)
+    payer_id
+    receiver_id
+    group_id (NULL)
+    amount
+    description
+    transaction_date
+
+---- Here’s a basic SQL query to get the amount owed by each user in a group ---
+
+select ed.user_id, SUM(ed.amount_owed - ed.contributed_amount ) as balance
+from ExpenseDetail ed
+join Expense e ON ed.expense_id = e.expense_id
+where e.group_id = :groupId
+group by  ed.user_id;
+
+
+------- CTE , Here’s a basic SQL query to get the amount owed by each user in a group , including transaction_info ----
+
+with UserExpense AS (
+    select user_id, SUM(amount_owed) as owed, SUM(contributed_amount) as contributed
+    from ExpenseDetail ed
+    JOIN Expense e ON ed.expense_id =  e.expense_id
+    where e.group_id = :groupId
+    group by ed.user_id
+),
+
+UserTransaction AS (
+       select payer_id as user_id , SUM(amount) as total_paid
+       from Transaction
+       where group_id= :groupId
+       group by payer_id
+ )
+
+select ue.user_id , (ue.contributed + IFNULL(ut.total_paid, 0) - ue.owed) as net_balance
+from UserExpense ue
+LEFT JOIN UserTransaction ut
+ON ue.user_id = ut.user_id
+group by ue.user_id
+
+------------
+
+API
+
+POST /v1/api/group/{groupId}/expenses
+Body{
+    groupId,
+    toralAmount,
+    splitType,
+    description,
+    expenseDetails: [
+        {
+          userId,
+          owed,
+          contribution,
+        },
+        {
+          userId,
+          owed,
+          contribution,
+        }
+    ]
+}
+Response {
+    expenseId,
+    status
+}
+
+GET /v1/api/group/{groupId}/balances
+Response {
+    total : +200
+    balances : [
+        {
+          balance : 20,
+          name: "abc",
+          "userId": 1,
+        },
+        {
+          balance : -200,
+          name: "test",
+          "userId": 3,
+         },
+    ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

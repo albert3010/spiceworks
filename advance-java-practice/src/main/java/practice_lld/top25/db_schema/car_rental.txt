@@ -1,0 +1,83 @@
+
+ System Requirements
+ We will focus on the following set of requirements while designing our Car Rental System:
+
+ The system will support the renting of different automobiles like cars, trucks, SUVs, vans, and motorcycles.
+ Each vehicle should be added with a unique barcode and other details, including a parking stall number which helps to locate the vehicle.
+ The system should be able to retrieve information like which member took a particular vehicle or what vehicles have been rented out by a specific member.
+ The system should collect a late-fee for vehicles returned after the due date.
+ Members should be able to search the vehicle inventory and reserve any available vehicle.
+ The system should be able to send notifications whenever the reservation is approaching the pick-up date, as well as when the vehicle is nearing the due date or has not been returned within the due date.
+ The system will be able to read barcodes from vehicles.
+ Members should be able to cancel their reservations.
+ The system should maintain a vehicle log to track all events related to the vehicles.
+ Members can add rental insurance to their reservation.
+ Members can rent additional equipment, like navigation, child seat, ski rack, etc.
+ Members can add additional services to their reservation, such as roadside assistance, additional driver, wifi, etc.
+
+ ----------------------------
+
+ ----- Database schema ------
+
+ @Users
+     id (PK)
+     name
+     email
+     phone
+     created_at
+ ----------------
+@Vehicles
+    vehicle_id (PK)
+    plate_number
+    bar_code
+    vehicle_type
+----------------
+@Vehicle_parking
+    vehicle_id
+    parking_place_id
+    stall_number
+    is_parked
+    updated_at
+-----------------
+@Vehicle_Location
+    id
+    vehicle_id
+    lat
+    long
+    updated_at
+-----------------
+@Vehicle_Availability
+    id (PK)
+    vehicle_id
+    rented_from
+    rented_to
+    status ('Available', 'Booked', 'Canceled')
+-----------------
+@Charges
+    vehicle_id
+    base_price
+    per_km_price
+    updated_at
+
+-------------
+@Bookings
+    id (PK)
+    vehicle_id
+    booked_from
+    booked_to
+    user_id
+    booking_date
+    status ('Success', 'Failed', 'Pending')
+    payment_id
+-------------
+
+-------------
+-------------
+
+-------------
+-------------
+
+
+
+
+
