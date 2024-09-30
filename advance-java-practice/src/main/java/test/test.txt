@@ -1,0 +1,23 @@
+Entity
+
+User (id)
+
+// BusRoute (id, name, source, destination, startTime, endTime, duration, status, capacity)
+
+BusJourney ( busId, date, startTime, endTime, source, destination, capacity, status)
+
+JourneyRepo {
+
++addJourney();
++searchJourney();
++bookJourney();
++getJourney(busId); // capacity
+}
+
+BookingDetails (bookingId, JourneyId, userId, totalSeats, status, bookingDate)
+
+BookingRepo{
++bookJourney(userId, BookingDetails);
++getBookings(userId);
+
+}

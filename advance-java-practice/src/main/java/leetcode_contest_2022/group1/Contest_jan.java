@@ -1,9 +1,6 @@
 package leetcode_contest_2022.group1;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Contest_jan {
     static int[] pre;
@@ -23,6 +20,45 @@ public class Contest_jan {
 
         }
 
+    }
+
+    class Node {
+        int i;
+        int j;
+        int health;
+
+        public Node(int i, int j, int health) {
+            this.i = i;
+            this.j = j;
+            this.health = health;
+        }
+    }
+
+    public boolean findSafeWalk(List<List<Integer>> grid, int health) {
+        PriorityQueue<Node> pq = new PriorityQueue<>((a, b) -> b.health - a.health);
+        int m = grid.size();
+        int n = grid.get(0).size();
+        int dp[][] = new int[m][n];
+
+        pq.add(new Node(0, 0, health));
+        int dir[] = {-1, 0, 1, 0, -1};
+
+        while (!pq.isEmpty()) {
+            Node nd = pq.poll();
+            if(nd.i ==m-1 && nd.j == n-1){
+                if(nd.health>0) return true;
+                return false;
+            }
+            for (int k = 0; k < 4; k++) {
+                int x = nd.i + dir[k];
+                int y = nd.j + dir[k + 1];
+                if (x >= 0 && x < m && y >= 0 && y < n && dp[x][y]< nd.health - grid.get(x).get(y)) {
+                    dp[x][y] = nd.health - grid.get(x).get(y);
+                    pq.add(new Node(x, y, dp[x][y]));
+                }
+            }
+        }
+        return false;
     }
 
     static long solve(int l, int r) {

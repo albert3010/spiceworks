@@ -7,11 +7,9 @@ import practice_lld_2023.machine_coding.Logger.observers.LogSubject;
 import java.io.Serializable;
 
 public class Logger implements Cloneable, Serializable {
-
     private volatile static Logger logger;
     private volatile static AbstractLogger chainLogger;
     private volatile static LogSubject logSubject;
-
 
     public static Logger getLogger() {
         if (logger == null) {
@@ -25,6 +23,7 @@ public class Logger implements Cloneable, Serializable {
     public void info(String message) {
         levelLog(LogType.INFO.getLevel(), message);
     }
+
     public void error(String message) {
         levelLog(LogType.ERROR.getLevel(), message);
     }
@@ -36,5 +35,4 @@ public class Logger implements Cloneable, Serializable {
     private void levelLog(int level, String message) {
         chainLogger.log(level, message, logSubject);
     }
-
 }

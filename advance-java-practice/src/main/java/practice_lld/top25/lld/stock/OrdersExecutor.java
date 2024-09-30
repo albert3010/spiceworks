@@ -32,9 +32,9 @@ public class OrdersExecutor implements Runnable {
                     int tradeQuantity = Math.min(buyOrder.getQuantity(), sellOrder.getQuantity());
 
 //                    Transaction sellTransaction = new Transaction(UUID.randomUUID().toString(), sellOrder.getTargetPrice(),
-//                            sellOrder.getStockId(), sellOrder.getUserId(), OrderType.SELL, tradeQuantity, Status.SUCCESS, DateTime.now());
+//                            sellOrder.getStockId(), sellOrder.getUserId(), OrderType.SELL, tradeQuantity, WalletError.SUCCESS, DateTime.now());
 //                    Transaction buyTransaction = new Transaction(UUID.randomUUID().toString(), sellOrder.getTargetPrice(),
-//                            sellOrder.stockId(), buyOrder.userId(), OrderType.BUY, tradeQuantity, Status.SUCCESS, DateTime.now());
+//                            sellOrder.stockId(), buyOrder.userId(), OrderType.BUY, tradeQuantity, WalletError.SUCCESS, DateTime.now());
 
 //                    transactionStore.addTransaction(sellOrder.userId(), sellTransaction);
 //                    transactionStore.addTransaction(buyTransaction.userId(), buyTransaction);

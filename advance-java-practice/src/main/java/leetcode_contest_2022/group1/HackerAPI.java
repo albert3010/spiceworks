@@ -1,13 +1,16 @@
 package leetcode_contest_2022.group1;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 
@@ -20,9 +23,72 @@ public class HackerAPI {
 //        System.out.println(reverse(3200));
 
     }
+    public class WeatherResponse {
+        int page;
+
+        @SerializedName("per_page")
+        int perPage;
+
+        int total;
+
+        @SerializedName("total_pages")
+        int totalPages;
+        List<CityData> data;
+
+    }
+    class CityData {
+        String name;
+        String weather;
+        List<String> status;
+    }
+
+    public static List<String> weatherStation(String keyword) {
+        Gson gson = new Gson();
+        List<String> result  = new ArrayList<>();
+        String urlPath ="https://jsonmock.hackerrank.com/api/weather/search?name="+keyword;
+        WeatherResponse weatherResponse;
+        try {
+            weatherResponse = getDataWeatherData(urlPath);
+        }catch (Exception e ){
+            return null;
+        }
+
+        for (CityData cityData : weatherResponse.data){
+
+            String cityName = cityData.name;
+            String weather = cityData.weather;
+            String temperature = weather.split(" ")[0];
+
+            String wind = cityData.status.get(0).split(":")[1].replace("Kmph", "").trim(); // Extracting wind value
+            String humidity = cityData.status.get(1).split(":")[1].replace("%", "").trim(); // Extracting humidity value
+            result.add(cityName + "," + temperature + "," + wind + "," + humidity);
+        }
+        return result;
+    }
+
+    static WeatherResponse getDataWeatherData(String urlPath) throws IOException {
+        URL url = new URL(urlPath);
+
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("Content-Type", "application/json");
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        StringBuilder response = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            response.append(line);
+        }
+        br.close();
+
+        String jsonResponse = response.toString();
+
+        Gson gson = new Gson();
+        return gson.fromJson(jsonResponse, WeatherResponse.class);
+    }
 
 
-    static List<String> getUsernames(int threshold) {
+static List<String> getUsernames(int threshold) {
         try {
             String urlPath = "https://jsonmock.hackerrank.com/api/article_users";
             int total = getPages(urlPath);
@@ -31,6 +97,7 @@ public class HackerAPI {
             return new ArrayList<>();
         }
     }
+
 
     static List<String> getUsersHelper(String urlPath, int threshold, int pages) throws Exception {
         Set<String> set = new HashSet<>();

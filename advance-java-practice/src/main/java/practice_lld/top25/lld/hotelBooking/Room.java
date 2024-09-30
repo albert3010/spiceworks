@@ -6,6 +6,4 @@ public class Room {
     int roomId;
     int hotelId;
     RoomStatus status;
-
-
 }

@@ -10,5 +10,4 @@ public class Address {
     Location location;
     String state;
     String street;
-
 }
