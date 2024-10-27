@@ -16,7 +16,7 @@ public class testA1 {
         grid.add(List.of(1,20,12,15));
         System.out.println("ans "+maxScore(grid));
         User user = new User(1, "", "");
-        System.out.println(user.userId());
+        System.out.println(user.getUserId());
 
     }
 

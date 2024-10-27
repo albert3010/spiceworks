@@ -1,6 +1,11 @@
 package practice_lld.top25.lld.kafka.entity;
 
-public record Message<K, V> (
-    K key,
-    V value
-){}
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
+public class Message<K, V> {
+    K key;
+    V value;
+}

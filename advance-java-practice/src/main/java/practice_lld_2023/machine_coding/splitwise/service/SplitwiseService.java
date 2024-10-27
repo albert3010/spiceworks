@@ -20,7 +20,7 @@ public class SplitwiseService {
     }
 
     public void addExpenseToGroup(Integer groupId, Expense expense) throws Exception {
-
+        // check expence
         expenseDao.addExpenseToGroup(groupId, expense);
     }
 

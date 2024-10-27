@@ -24,7 +24,6 @@ public class JobExecutor implements Runnable {
         this.jobExecutor = Executors.newFixedThreadPool(threadCount);
     }
 
-
     @Override
     public void run() {
         while (true) {

@@ -13,7 +13,7 @@ public class KafkaProducer<K,V > implements Producer<K, V> {
 
     @Override
     public void sendMessage(String topicName, Message<K, V> message) {
-        int partitionId = partitioner.partition(topicName, message.key(), message.value());
+        int partitionId = partitioner.partition(topicName, message.getKey(), message.getValue());
         messageBroker.publishMessage(topicName, message, partitionId);
     }
 }
